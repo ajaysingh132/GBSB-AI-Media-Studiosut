@@ -1,0 +1,106 @@
+/*
+=========================================================
+GBSB AI Media Studio
+Projects Styles v0.1
+=========================================================
+*/
+
+body{
+    margin:0;
+    background:#0d1117;
+    color:#ffffff;
+    font-family:Arial,sans-serif;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px;
+    background:#161b22;
+    border-bottom:1px solid #30363d;
+}
+
+.topbar h1{
+    margin:0;
+    color:#f4b400;
+    font-size:22px;
+}
+
+main{
+    padding:16px;
+}
+
+.project-card{
+    background:#161b22;
+    border:1px solid #30363d;
+    border-radius:14px;
+    padding:16px;
+    margin-bottom:15px;
+}
+
+.project-card h3{
+    margin-top:0;
+    color:#f4b400;
+}
+
+.project-card p{
+    color:#c9d1d9;
+}
+
+.project-actions{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+}
+
+.project-actions button{
+    flex:1;
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.open-btn{
+    background:#238636;
+    color:white;
+}
+
+.delete-btn{
+    background:#da3633;
+    color:white;
+}
+
+.new-project{
+    width:100%;
+    padding:14px;
+    margin-top:20px;
+    border:none;
+    border-radius:12px;
+    background:#f4b400;
+    color:black;
+    font-size:16px;
+    font-weight:bold;
+}
+
+.bottom-nav{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    display:flex;
+    justify-content:space-around;
+    background:#161b22;
+    border-top:1px solid #30363d;
+    padding:12px;
+}
+
+.bottom-nav a{
+    color:white;
+    text-decoration:none;
+}
+
+.bottom-nav a.active{
+    color:#f4b400;
+}
