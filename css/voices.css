@@ -1,0 +1,201 @@
+/*
+=========================================================
+GBSB AI Media Studio
+Voice Library Styles v0.1
+Author : Ajay Singh Chouhan
+License : MIT
+=========================================================
+*/
+
+/* ---------- Page ---------- */
+
+body{
+    margin:0;
+    padding:0;
+    background:#0d1117;
+    color:#ffffff;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+/* ---------- Header ---------- */
+
+.voice-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px;
+    background:#161b22;
+    border-bottom:1px solid #30363d;
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.voice-header h1{
+    margin:0;
+    font-size:22px;
+    color:#f4b400;
+}
+
+.back-btn,
+.search-btn{
+    width:42px;
+    height:42px;
+    border:none;
+    border-radius:50%;
+    background:#21262d;
+    color:#fff;
+    cursor:pointer;
+}
+
+/* ---------- Search ---------- */
+
+.search-box{
+    padding:15px;
+}
+
+.search-box input{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:#21262d;
+    color:#fff;
+    font-size:16px;
+}
+
+/* ---------- Categories ---------- */
+
+.category-list{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    padding:10px 15px;
+}
+
+.category{
+    padding:10px 18px;
+    border-radius:30px;
+    background:#21262d;
+    white-space:nowrap;
+    cursor:pointer;
+}
+
+.category.active{
+    background:#f4b400;
+    color:#000;
+    font-weight:bold;
+}
+
+/* ---------- Voice Grid ---------- */
+
+.voice-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+    gap:15px;
+    padding:15px;
+}
+
+/* ---------- Voice Card ---------- */
+
+.voice-card{
+    background:#161b22;
+    border:1px solid #30363d;
+    border-radius:18px;
+    padding:18px;
+    transition:.3s;
+}
+
+.voice-card:hover{
+    transform:translateY(-5px);
+    border-color:#f4b400;
+}
+
+.voice-avatar{
+    font-size:42px;
+    text-align:center;
+    margin-bottom:10px;
+}
+
+.voice-name{
+    text-align:center;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.voice-type{
+    text-align:center;
+    color:#9ca3af;
+    margin-top:5px;
+    font-size:14px;
+}
+
+/* ---------- Buttons ---------- */
+
+.voice-actions{
+    display:flex;
+    justify-content:space-between;
+    margin-top:18px;
+}
+
+.voice-actions button{
+    flex:1;
+    margin:3px;
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.play-btn{
+    background:#00c853;
+    color:white;
+}
+
+.use-btn{
+    background:#f4b400;
+    color:black;
+}
+
+/* ---------- Bottom Navigation ---------- */
+
+.bottom-nav{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    background:#161b22;
+    display:flex;
+    justify-content:space-around;
+    padding:10px 0;
+    border-top:1px solid #30363d;
+}
+
+.bottom-nav a{
+    color:white;
+    text-decoration:none;
+    font-size:14px;
+}
+
+.bottom-nav a.active{
+    color:#f4b400;
+}
+
+/* ---------- Mobile ---------- */
+
+@media(max-width:768px){
+
+.voice-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.voice-header h1{
+
+font-size:18px;
+
+}
+
+}
