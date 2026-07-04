@@ -1,175 +1,498 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#111827">
 
-    <title>GBSB AI Media Studio</title>
+<meta charset="UTF-8">
 
-    <link rel="manifest" href="manifest.json">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="css/app.css">
-    <link rel="stylesheet" href="css/dashboard.css">
-    <link rel="stylesheet" href="css/voice-library.css">
+<meta name="theme-color" content="#E8A000">
 
-    <script defer src="js/app.js"></script>
-    <script defer src="js/dashboard.js"></script>
+<title>GBSB AI Media Studio</title>
+
+<link rel="manifest" href="manifest.json">
+
+<link rel="stylesheet" href="css/app.css">
+
+<link rel="stylesheet" href="css/dashboard.css">
+
 </head>
 
 <body>
 
+<!-- =========================
+SIDEBAR
+========================== -->
+
+<aside id="sidebar" class="sidebar">
+
+<h2>GBSB AI Studio</h2>
+
+<nav>
+
+<a href="index.html">🏠 Dashboard</a>
+
+<a href="voices.html">🎤 Voice Library</a>
+
+<a href="projects.html">📁 Projects</a>
+
+<a href="podcast.html">🎙 Podcast Studio</a>
+
+<a href="video.html">🎬 Video Studio</a>
+
+<a href="audiobook.html">📚 Audiobook Studio</a>
+
+<a href="teacher.html">🎓 AI Teacher</a>
+
+<a href="settings.html">⚙ Settings</a>
+
+</nav>
+
+</aside>
+
+<!-- =========================
+TOP HEADER
+========================== -->
+
 <header class="topbar">
 
-    <button class="icon-btn">
-        ☰
-    </button>
+<button onclick="UI.toggle('sidebar')">
 
-    <div class="logo">
+☰
 
-        <h1>GBSB AI Media Studio</h1>
+</button>
 
-        <small>Professional Edition</small>
+<div>
 
-    </div>
+<h1>
 
-    <div class="top-actions">
+GBSB AI Media Studio
 
-        <button class="icon-btn">🔍</button>
+</h1>
 
-        <button class="icon-btn">🔔</button>
+<small>
 
-        <button class="icon-btn">⚙</button>
+Version 2.0 Alpha
 
-    </div>
+</small>
+
+</div>
+
+<button onclick="Router.go('settings')">
+
+⚙
+
+</button>
 
 </header>
+
+<!-- =========================
+MAIN
+========================== -->
 
 <main>
 
 <section class="welcome-card">
 
-<h2>Welcome</h2>
+<h2>
 
-<p>Ajay Singh Chouhan</p>
+Welcome Ajay Singh Chouhan
 
-<span>AI Media Production Platform</span>
+</h2>
+
+<p>
+
+Professional AI Voice, Podcast,
+
+Video & Audiobook Studio
+
+</p>
 
 </section>
-
-
+<!-- =========================
+AI STUDIO MODULES
+========================== -->
 
 <section class="dashboard-grid">
 
-<div class="card">
+<div class="card"
+onclick="Router.go('voices')">
+
+<div class="icon">
+
+🎤
+
+</div>
+
+<h3>
+
+Voice Library
+
+</h3>
+
+<p>
+
+Manage AI Voices
+
+</p>
+
+</div>
+
+<div class="card"
+onclick="Router.go('podcast')">
+
+<div class="icon">
+
 🎙
-<h3>Voice Studio</h3>
-<p>Create professional AI voice projects</p>
+
 </div>
 
-<div class="card">
-🎧
-<h3>Podcast Studio</h3>
-<p>Create multi-speaker podcasts</p>
+<h3>
+
+Podcast Studio
+
+</h3>
+
+<p>
+
+Create AI Podcasts
+
+</p>
+
 </div>
 
-<div class="card">
+<div class="card"
+onclick="Router.go('video')">
+
+<div class="icon">
+
 🎬
-<h3>Video Studio</h3>
-<p>AI narration and subtitles</p>
+
 </div>
 
-<div class="card">
+<h3>
+
+Video Studio
+
+</h3>
+
+<p>
+
+Generate AI Videos
+
+</p>
+
+</div>
+
+<div class="card"
+onclick="Router.go('audiobook')">
+
+<div class="icon">
+
 📚
-<h3>Audiobook Studio</h3>
-<p>Convert books into audio</p>
+
 </div>
 
-<div class="card">
+<h3>
+
+Audiobook Studio
+
+</h3>
+
+<p>
+
+Create Audiobooks
+
+</p>
+
+</div>
+
+<div class="card"
+onclick="Router.go('teacher')">
+
+<div class="icon">
+
 🎓
-<h3>AI Teacher</h3>
-<p>Interactive learning system</p>
+
 </div>
 
-<div class="card">
-🌐
-<h3>Language Studio</h3>
-<p>Hindi • English • Banjara</p>
+<h3>
+
+AI Teacher
+
+</h3>
+
+<p>
+
+Digital Gurukul
+
+</p>
+
+</div>
+
+<div class="card"
+onclick="Router.go('projects')">
+
+<div class="icon">
+
+📁
+
+</div>
+
+<h3>
+
+Projects
+
+</h3>
+
+<p>
+
+Manage Projects
+
+</p>
+
 </div>
 
 </section>
 
+<!-- =========================
+SYSTEM STATUS
+========================== -->
 
+<section class="card">
 
-<section class="recent-projects">
+<h2>
 
-<h2>Recent Projects</h2>
+System Status
 
-<div class="project-card">
-📘 Constitution Research
-</div>
+</h2>
 
-<div class="project-card">
-📖 Banjara Gita
-</div>
+<p>
 
-<div class="project-card">
-🎙 Podcast Episode 01
+🟢 Storage Ready
+
+</p>
+
+<p>
+
+🟢 Voice Engine Ready
+
+</p>
+
+<p>
+
+🟢 Audio Engine Ready
+
+</p>
+
+<p>
+
+🟢 AI Core Ready
+
+</p>
+
+<p>
+
+🟢 Router Ready
+
+</p>
+
+</section>
+<!-- =========================
+RECENT PROJECTS
+========================== -->
+
+<section class="card">
+
+<h2>📁 Recent Projects</h2>
+
+<div id="recentProjects">
+
+<p>No projects available.</p>
+
 </div>
 
 </section>
 
+<!-- =========================
+QUICK ACTIONS
+========================== -->
 
+<section class="card">
 
-<section class="quick-actions">
+<h2>⚡ Quick Actions</h2>
 
-<h2>Quick Actions</h2>
+<div class="quick-actions">
 
-<button onclick="ProjectManager.create()">➕ New Project</button>
+<button onclick="ProjectManager.create({
+name:'New Project'
+})">
 
-<button onclick="window.location.href='voices.html'">🎤 Record Voice</button>
+➕ New Project
 
-<button onclick="ProjectManager.open()">📂 Open Project</button>
+</button>
 
-<button onclick="ProjectManager.export()">⬇ Export</button>
+<button onclick="Router.go('voices')">
+
+🎤 Record Voice
+
+</button>
+
+<button onclick="Router.go('projects')">
+
+📂 Open Projects
+
+</button>
+
+<button onclick="Router.go('video')">
+
+🎬 Create Video
+
+</button>
+
+<button onclick="Router.go('podcast')">
+
+🎙 Create Podcast
+
+</button>
+
+<button onclick="Router.go('audiobook')">
+
+📚 Create Audiobook
+
+</button>
+
+</div>
+
 </section>
+
+<!-- =========================
+AI STATUS
+========================== -->
+
+<section class="card">
+
+<h2>🤖 AI Status</h2>
+
+<p><strong>Provider :</strong> Browser AI</p>
+
+<p><strong>Voice Engine :</strong> Ready</p>
+
+<p><strong>Audio Engine :</strong> Ready</p>
+
+<p><strong>TTS Engine :</strong> Ready</p>
+
+<p><strong>Storage :</strong> Connected</p>
+
+<p><strong>Version :</strong> v2.0 Alpha</p>
+
+    </section>
+    <!-- =========================
+BOTTOM NAVIGATION
+========================== -->
 
 </main>
 
-
-
 <nav class="bottom-nav">
 
-<button>
+<button onclick="Router.go('home')">
+
 🏠
+
 <span>Home</span>
+
 </button>
 
-<button>
-🎙
+<button onclick="Router.go('voices')">
+
+🎤
+
 <span>Voices</span>
+
 </button>
 
-<button>
-📂
+<button onclick="Router.go('projects')">
+
+📁
+
 <span>Projects</span>
+
 </button>
 
-<button>
+<button onclick="Router.go('video')">
+
 🎬
+
 <span>Media</span>
+
 </button>
 
-<button>
+<button onclick="Router.go('settings')">
+
 ⚙
+
 <span>Settings</span>
+
 </button>
 
 </nav>
+
+<!-- =========================
+JAVASCRIPT
+========================== -->
+
+<script src="js/config.js"></script>
+
 <script src="js/storage.js"></script>
+
 <script src="js/router.js"></script>
-<script src="js/projects.js"></script>
-<script src="js/voices.js"></script>
+
+<script src="js/ui.js"></script>
+
+<script src="js/auth.js"></script>
+
+<script src="js/api.js"></script>
+
+<script src="js/project-manager.js"></script>
+
+<script src="js/voice-engine.js"></script>
+
+<script src="js/audio-engine.js"></script>
+
 <script src="js/tts-engine.js"></script>
+
+<script src="js/ai-core.js"></script>
+
+<script src="js/dashboard.js"></script>
+
+<script>
+
+if("serviceWorker" in navigator){
+
+window.addEventListener("load",()=>{
+
+navigator.serviceWorker.register("./service-worker.js")
+
+.then(()=>{
+
+console.log("Service Worker Registered");
+
+})
+
+.catch(err=>{
+
+console.error(err);
+
+});
+
+});
+
+}
+
+</script>
+
 </body>
-  </html
+
+</html>
