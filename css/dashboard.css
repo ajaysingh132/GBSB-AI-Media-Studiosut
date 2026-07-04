@@ -1,0 +1,306 @@
+/*
+=========================================================
+GBSB AI Media Studio
+Version : 0.1.0 Alpha
+Module  : Dashboard
+Author  : Ajay Singh Chouhan
+Organization : GBSB4U Publications
+License : MIT
+=========================================================
+*/
+
+/* ===========================
+   TOP HEADER
+=========================== */
+
+.topbar{
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+padding:18px;
+
+background:var(--surface);
+
+border-bottom:1px solid var(--border);
+
+position:sticky;
+
+top:0;
+
+z-index:100;
+
+}
+
+.logo h1{
+
+font-size:22px;
+
+font-weight:700;
+
+color:var(--primary);
+
+}
+
+.logo small{
+
+display:block;
+
+font-size:12px;
+
+color:var(--text-secondary);
+
+margin-top:2px;
+
+}
+
+.icon-btn{
+
+width:42px;
+
+height:42px;
+
+border-radius:50%;
+
+background:var(--card);
+
+color:var(--text);
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+}
+
+/* ===========================
+   MAIN
+=========================== */
+
+main{
+
+padding:18px;
+
+}
+
+/* ===========================
+   WELCOME CARD
+=========================== */
+
+.welcome-card{
+
+background:linear-gradient(135deg,#E8A000,#00B894);
+
+padding:22px;
+
+border-radius:20px;
+
+color:#fff;
+
+margin-bottom:20px;
+
+box-shadow:var(--shadow);
+
+}
+
+.welcome-card h2{
+
+font-size:24px;
+
+margin-bottom:8px;
+
+}
+
+.welcome-card p{
+
+font-size:18px;
+
+font-weight:600;
+
+}
+
+.welcome-card span{
+
+font-size:14px;
+
+opacity:.9;
+
+}
+
+/* ===========================
+   DASHBOARD GRID
+=========================== */
+
+.dashboard-grid{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+
+gap:16px;
+
+margin-bottom:25px;
+
+}
+
+.dashboard-grid .card{
+
+text-align:center;
+
+cursor:pointer;
+
+transition:var(--transition);
+
+}
+
+.dashboard-grid .card:hover{
+
+transform:translateY(-4px);
+
+}
+
+/* ===========================
+   RECENT PROJECTS
+=========================== */
+
+.recent-projects{
+
+margin-bottom:25px;
+
+}
+
+.recent-projects h2{
+
+margin-bottom:12px;
+
+font-size:20px;
+
+}
+
+.project-card{
+
+background:var(--card);
+
+border:1px solid var(--border);
+
+border-radius:16px;
+
+padding:15px;
+
+margin-bottom:12px;
+
+}
+
+/* ===========================
+   QUICK ACTIONS
+=========================== */
+
+.quick-actions{
+
+margin-bottom:90px;
+
+}
+
+.quick-actions h2{
+
+margin-bottom:12px;
+
+}
+
+.quick-actions button{
+
+width:100%;
+
+padding:16px;
+
+margin-bottom:10px;
+
+border-radius:14px;
+
+background:var(--primary);
+
+color:#000;
+
+font-weight:600;
+
+}
+
+/* ===========================
+   BOTTOM NAVIGATION
+=========================== */
+
+.bottom-nav{
+
+position:fixed;
+
+left:0;
+
+right:0;
+
+bottom:0;
+
+display:flex;
+
+justify-content:space-around;
+
+background:var(--surface);
+
+border-top:1px solid var(--border);
+
+padding:10px 0;
+
+}
+
+.bottom-nav button{
+
+background:none;
+
+color:var(--text-secondary);
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+gap:4px;
+
+font-size:13px;
+
+}
+
+.bottom-nav button:hover{
+
+color:var(--primary);
+
+}
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media(max-width:768px){
+
+.dashboard-grid{
+
+grid-template-columns:1fr 1fr;
+
+}
+
+.logo h1{
+
+font-size:18px;
+
+}
+
+.welcome-card{
+
+padding:18px;
+
+}
+
+}
