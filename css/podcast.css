@@ -1,0 +1,136 @@
+/*
+=========================================================
+GBSB AI Media Studio
+Podcast Studio Styles v0.1
+Author : Ajay Singh Chouhan
+License : MIT
+=========================================================
+*/
+
+body{
+    margin:0;
+    padding:0;
+    background:#0d1117;
+    color:#ffffff;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+/* Header */
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px;
+    background:#161b22;
+    border-bottom:1px solid #30363d;
+}
+
+.topbar h1{
+    margin:0;
+    color:#f4b400;
+    font-size:22px;
+}
+
+.topbar button{
+    width:42px;
+    height:42px;
+    border:none;
+    border-radius:50%;
+    background:#21262d;
+    color:#ffffff;
+    cursor:pointer;
+}
+
+/* Main */
+
+main{
+    padding:16px;
+}
+
+/* Card */
+
+.card{
+    background:#161b22;
+    border:1px solid #30363d;
+    border-radius:16px;
+    padding:18px;
+    margin-bottom:18px;
+}
+
+.card h2{
+    margin-top:0;
+    color:#f4b400;
+}
+
+.card p{
+    color:#c9d1d9;
+}
+
+/* Button */
+
+#newPodcast{
+    width:100%;
+    padding:14px;
+    margin-top:12px;
+    border:none;
+    border-radius:12px;
+    background:#f4b400;
+    color:#000;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* Podcast List */
+
+.card ul{
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+
+.card li{
+    background:#21262d;
+    margin-top:10px;
+    padding:12px;
+    border-radius:10px;
+}
+
+/* Bottom Navigation */
+
+.bottom-nav{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    display:flex;
+    justify-content:space-around;
+    background:#161b22;
+    border-top:1px solid #30363d;
+    padding:12px;
+}
+
+.bottom-nav a{
+    text-decoration:none;
+    color:#ffffff;
+    font-size:14px;
+}
+
+.bottom-nav a.active{
+    color:#f4b400;
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+.topbar h1{
+    font-size:18px;
+}
+
+.card{
+    padding:15px;
+}
+
+}
