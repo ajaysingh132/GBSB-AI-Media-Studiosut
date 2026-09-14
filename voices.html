@@ -1,21 +1,302 @@
-┌──────────────────────────────┐
-│ ←  Voice Library         🔍 │
-├──────────────────────────────┤
-│ Search Voices               │
-├──────────────────────────────┤
-│ ⭐ Favorites                │
-│ 👨 Male                     │
-│ 👩 Female                   │
-│ 🌍 Hindi                    │
-│ 🇬🇧 English                 │
-│ 🏕️ Banjara                  │
-├──────────────────────────────┤
-│ 🎙 Ajay Private Voice        │
-│ 🎧 Narrator Male            │
-│ 👨 Teacher Male             │
-│ 👩 Teacher Female           │
-│ 📰 News Male                │
-│ 📖 Story Voice              │
-├──────────────────────────────┤
-│ Home Voices Projects Media  │
-└──────────────────────────────┘
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0d1117">
+<title>Voice Library — GBSB AI Media Studio</title>
+<style>
+:root{
+  --bg:#0d1117;
+  --panel:#161b22;
+  --panel2:#21262d;
+  --border:#30363d;
+  --text:#fff;
+  --muted:#9ca3af;
+  --gold:#f4b400;
+  --green:#00c853;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+  padding-bottom:76px;
+}
+.voice-header{
+  position:sticky;top:0;z-index:10;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 16px;background:rgba(22,27,34,.97);
+  border-bottom:1px solid var(--border);
+}
+.voice-header h1{margin:0;font-size:21px;color:var(--gold)}
+.header-btn{
+  width:42px;height:42px;border:0;border-radius:12px;
+  background:var(--panel2);color:#fff;font-size:20px;cursor:pointer;
+}
+.container{max-width:1100px;margin:auto;padding:16px}
+.search-box{margin-bottom:12px}
+.search-box input{
+  width:100%;padding:14px 16px;border:1px solid var(--border);
+  border-radius:12px;background:var(--panel2);color:#fff;
+  font-size:16px;outline:none;
+}
+.category-list{
+  display:flex;gap:8px;overflow-x:auto;padding:4px 0 14px;
+  scrollbar-width:none;
+}
+.category-list::-webkit-scrollbar{display:none}
+.category{
+  flex:0 0 auto;padding:9px 15px;border:1px solid var(--border);
+  border-radius:999px;background:var(--panel2);color:#fff;cursor:pointer;
+}
+.category.active{background:var(--gold);color:#000;border-color:var(--gold);font-weight:bold}
+.section-title{font-size:16px;margin:8px 0 12px;color:#d1d5db}
+.voice-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;
+}
+.voice-card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:18px;padding:18px;
+}
+.voice-card.primary{border-color:var(--gold);box-shadow:0 0 0 1px rgba(244,180,0,.12)}
+.badge{
+  display:inline-block;padding:5px 9px;border-radius:999px;
+  background:rgba(244,180,0,.14);color:var(--gold);font-size:12px;font-weight:bold;
+  margin-bottom:12px;
+}
+.voice-top{display:flex;gap:14px;align-items:center}
+.voice-avatar{
+  width:58px;height:58px;border-radius:16px;background:var(--panel2);
+  display:grid;place-items:center;font-size:30px;flex:0 0 auto;
+}
+.voice-name{font-size:18px;font-weight:bold}
+.voice-type{color:var(--muted);font-size:13px;margin-top:4px}
+.voice-id{font-family:monospace;color:#b8c0cc;font-size:12px;margin-top:7px}
+.voice-desc{color:#d1d5db;font-size:14px;line-height:1.5;margin:14px 0}
+.voice-actions{display:flex;gap:8px}
+.voice-actions button{
+  flex:1;padding:11px;border:0;border-radius:10px;font-size:14px;
+  font-weight:bold;cursor:pointer;
+}
+.play-btn{background:var(--green);color:#fff}
+.use-btn{background:var(--gold);color:#000}
+.status{
+  margin-top:10px;color:var(--muted);font-size:12px;min-height:16px;
+}
+.bottom-nav{
+  position:fixed;left:0;right:0;bottom:0;z-index:20;
+  display:flex;justify-content:space-around;
+  background:rgba(22,27,34,.98);border-top:1px solid var(--border);
+  padding:10px 4px;
+}
+.bottom-nav a{color:#fff;text-decoration:none;font-size:12px;text-align:center;padding:4px 8px}
+.bottom-nav a.active{color:var(--gold)}
+.empty{display:none;text-align:center;color:var(--muted);padding:30px}
+@media(max-width:600px){
+  .container{padding:12px}
+  .voice-grid{grid-template-columns:1fr}
+  .voice-header h1{font-size:18px}
+}
+</style>
+</head>
+<body>
+
+<header class="voice-header">
+  <button class="header-btn" onclick="history.back()" aria-label="वापस">←</button>
+  <h1>🎙️ Voice Library</h1>
+  <button class="header-btn" onclick="document.getElementById('search').focus()" aria-label="खोजें">🔍</button>
+</header>
+
+<main class="container">
+  <div class="search-box">
+    <input id="search" type="search" placeholder="आवाज़ खोजें…" autocomplete="off">
+  </div>
+
+  <div class="category-list" id="categories">
+    <button class="category active" data-cat="all">⭐ सभी</button>
+    <button class="category" data-cat="favorites">★ Favorites</button>
+    <button class="category" data-cat="male">👨 Male</button>
+    <button class="category" data-cat="female">👩 Female</button>
+    <button class="category" data-cat="sanskrit">संस्कृत</button>
+    <button class="category" data-cat="hindi">हिन्दी</button>
+    <button class="category" data-cat="english">English</button>
+  </div>
+
+  <div class="section-title">मुख्य आवाज़</div>
+
+  <section class="voice-grid" id="voiceGrid">
+
+    <article class="voice-card primary" data-name="आदित्य भारती" data-cat="male sanskrit hindi">
+      <span class="badge">PRIMARY • DEVELOPMENT</span>
+      <div class="voice-top">
+        <div class="voice-avatar">🎙️</div>
+        <div>
+          <div class="voice-name">आदित्य भारती</div>
+          <div class="voice-type">Sanskrit News Voice</div>
+          <div class="voice-id">ADITYA_BHARTI_V1</div>
+        </div>
+      </div>
+      <div class="voice-desc">
+        गंभीर, स्पष्ट और विश्वसनीय समाचार-वाचन। संस्कृत समाचार,
+        विश्लेषण और AI Media Studio के लिए मुख्य आवाज़।
+      </div>
+      <div class="voice-actions">
+        <button class="play-btn" onclick="previewVoice(this,'आदित्य भारती')">▶ Preview</button>
+        <button class="use-btn" onclick="selectVoice('ADITYA_BHARTI_V1','आदित्य भारती')">✓ Select</button>
+      </div>
+      <div class="status" id="status-aditya"></div>
+    </article>
+
+    <article class="voice-card" data-name="Narrator Male" data-cat="male hindi english">
+      <div class="voice-top">
+        <div class="voice-avatar">🎧</div>
+        <div>
+          <div class="voice-name">Narrator Male</div>
+          <div class="voice-type">General Narration</div>
+          <div class="voice-id">NARRATOR_MALE</div>
+        </div>
+      </div>
+      <div class="voice-desc">डॉक्यूमेंट्री, कहानी और सामान्य narration के लिए।</div>
+      <div class="voice-actions">
+        <button class="play-btn" onclick="previewVoice(this,'Narrator Male')">▶ Preview</button>
+        <button class="use-btn" onclick="selectVoice('NARRATOR_MALE','Narrator Male')">✓ Select</button>
+      </div>
+      <div class="status"></div>
+    </article>
+
+    <article class="voice-card" data-name="Teacher Male" data-cat="male hindi english">
+      <div class="voice-top">
+        <div class="voice-avatar">👨‍🏫</div>
+        <div>
+          <div class="voice-name">Teacher Male</div>
+          <div class="voice-type">Academic Voice</div>
+          <div class="voice-id">TEACHER_MALE</div>
+        </div>
+      </div>
+      <div class="voice-desc">शैक्षणिक और व्याख्यात्मक सामग्री के लिए।</div>
+      <div class="voice-actions">
+        <button class="play-btn" onclick="previewVoice(this,'Teacher Male')">▶ Preview</button>
+        <button class="use-btn" onclick="selectVoice('TEACHER_MALE','Teacher Male')">✓ Select</button>
+      </div>
+      <div class="status"></div>
+    </article>
+
+    <article class="voice-card" data-name="Teacher Female" data-cat="female hindi english">
+      <div class="voice-top">
+        <div class="voice-avatar">👩‍🏫</div>
+        <div>
+          <div class="voice-name">Teacher Female</div>
+          <div class="voice-type">Academic Voice</div>
+          <div class="voice-id">TEACHER_FEMALE</div>
+        </div>
+      </div>
+      <div class="voice-desc">कक्षा, पाठ और शैक्षणिक narration के लिए।</div>
+      <div class="voice-actions">
+        <button class="play-btn" onclick="previewVoice(this,'Teacher Female')">▶ Preview</button>
+        <button class="use-btn" onclick="selectVoice('TEACHER_FEMALE','Teacher Female')">✓ Select</button>
+      </div>
+      <div class="status"></div>
+    </article>
+
+    <article class="voice-card" data-name="News Male" data-cat="male hindi english">
+      <div class="voice-top">
+        <div class="voice-avatar">📰</div>
+        <div>
+          <div class="voice-name">News Male</div>
+          <div class="voice-type">News / Analysis</div>
+          <div class="voice-id">NEWS_MALE</div>
+        </div>
+      </div>
+      <div class="voice-desc">समाचार और विश्लेषणात्मक narration के लिए fallback voice।</div>
+      <div class="voice-actions">
+        <button class="play-btn" onclick="previewVoice(this,'News Male')">▶ Preview</button>
+        <button class="use-btn" onclick="selectVoice('NEWS_MALE','News Male')">✓ Select</button>
+      </div>
+      <div class="status"></div>
+    </article>
+
+    <article class="voice-card" data-name="Story Voice" data-cat="female hindi english">
+      <div class="voice-top">
+        <div class="voice-avatar">📖</div>
+        <div>
+          <div class="voice-name">Story Voice</div>
+          <div class="voice-type">Storytelling</div>
+          <div class="voice-id">STORY_VOICE</div>
+        </div>
+      </div>
+      <div class="voice-desc">कथा, audiobook और storytelling के लिए।</div>
+      <div class="voice-actions">
+        <button class="play-btn" onclick="previewVoice(this,'Story Voice')">▶ Preview</button>
+        <button class="use-btn" onclick="selectVoice('STORY_VOICE','Story Voice')">✓ Select</button>
+      </div>
+      <div class="status"></div>
+    </article>
+
+  </section>
+  <div class="empty" id="empty">कोई आवाज़ नहीं मिली।</div>
+</main>
+
+<nav class="bottom-nav">
+  <a href="index.html">⌂<br>Home</a>
+  <a href="voices.html" class="active">🎙<br>Voices</a>
+  <a href="projects.html">📁<br>Projects</a>
+  <a href="video.html">🎬<br>Media</a>
+</nav>
+
+<script>
+const sampleText = "नमस्कार। यह आदित्य भारती की समाचार वाचन प्रणाली का परीक्षण है।";
+
+function previewVoice(button, label){
+  if(!('speechSynthesis' in window)){
+    setStatus(button,"ब्राउज़र Voice Preview उपलब्ध नहीं है।");
+    return;
+  }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(sampleText);
+  const voices = speechSynthesis.getVoices();
+  const preferred = voices.find(v => /hi-IN|hi-IN|sa-IN|en-IN/i.test(v.lang));
+  if(preferred) u.voice = preferred;
+  u.lang = preferred ? preferred.lang : "hi-IN";
+  u.rate = .92; u.pitch = 1; u.volume = 1;
+  u.onstart = () => setStatus(button,"Preview चल रहा है…");
+  u.onend = () => setStatus(button,"Preview समाप्त।");
+  u.onerror = () => setStatus(button,"Preview उपलब्ध नहीं हो पाया।");
+  speechSynthesis.speak(u);
+}
+function setStatus(button,text){
+  const card=button.closest('.voice-card');
+  const s=card && card.querySelector('.status');
+  if(s) s.textContent=text;
+}
+function selectVoice(id,name){
+  localStorage.setItem('gbsb_selected_voice_id',id);
+  localStorage.setItem('gbsb_selected_voice_name',name);
+  alert(name + " चयनित है।");
+}
+function filter(){
+  const q=document.getElementById('search').value.trim().toLowerCase();
+  const active=document.querySelector('.category.active')?.dataset.cat || 'all';
+  let visible=0;
+  document.querySelectorAll('.voice-card').forEach(card=>{
+    const text=(card.dataset.name+' '+card.textContent).toLowerCase();
+    const cats=(card.dataset.cat||'').split(' ');
+    const matchesText=!q || text.includes(q);
+    const matchesCat=active==='all' || (active==='favorites' ? card.classList.contains('favorite') : cats.includes(active));
+    const show=matchesText && matchesCat;
+    card.style.display=show?'block':'none';
+    if(show) visible++;
+  });
+  document.getElementById('empty').style.display=visible?'none':'block';
+}
+document.getElementById('search').addEventListener('input',filter);
+document.querySelectorAll('.category').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.category').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active'); filter();
+  });
+});
+if('speechSynthesis' in window) speechSynthesis.getVoices();
+</script>
+</body>
+  </html>
+  
