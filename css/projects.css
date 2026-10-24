@@ -1,106 +1,105 @@
 /*
-=========================================================
-GBSB AI Media Studio
-Projects Styles v0.1
-=========================================================
+GBSB AI Media Studio — Projects Manager styles v0.2
+Scoped project styles; shared app styles remain in css/app.css.
 */
-
-body{
-    margin:0;
-    background:#0d1117;
-    color:#ffffff;
-    font-family:Arial,sans-serif;
+.projects-main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px 16px 100px;
 }
-
-.topbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:16px;
-    background:#161b22;
-    border-bottom:1px solid #30363d;
+.projects-main h2 {
+  margin: 20px 0 12px;
+  font-size: 1.15rem;
 }
-
-.topbar h1{
-    margin:0;
-    color:#f4b400;
-    font-size:22px;
+.project-tools.card {
+  padding: 16px;
+  border-radius: 14px;
 }
-
-main{
-    padding:16px;
+.project-tools p, .section-help {
+  color: #c9d1d9;
+  line-height: 1.5;
+  font-size: .92rem;
 }
-
-.project-card{
-    background:#161b22;
-    border:1px solid #30363d;
-    border-radius:14px;
-    padding:16px;
-    margin-bottom:15px;
+.project-tools label {
+  display: block;
+  margin: 14px 0 6px;
 }
-
-.project-card h3{
-    margin-top:0;
-    color:#f4b400;
+#projectSearch {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #484f58;
+  border-radius: 10px;
+  background: #0d1117;
+  color: #fff;
+  font: inherit;
+  box-sizing: border-box;
 }
-
-.project-card p{
-    color:#c9d1d9;
+.new-project {
+  width: 100%;
+  min-height: 46px;
+  padding: 12px;
+  margin-top: 12px;
+  border: 0;
+  border-radius: 10px;
+  background: #f4b400;
+  color: #111;
+  font-size: 1rem;
+  font-weight: 700;
 }
-
-.project-actions{
-    display:flex;
-    gap:10px;
-    margin-top:15px;
+.projects-list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
 }
-
-.project-actions button{
-    flex:1;
-    padding:10px;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
+.project-card {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid #30363d;
+  border-radius: 14px;
+  background: #161b22;
+  overflow-wrap: anywhere;
 }
-
-.open-btn{
-    background:#238636;
-    color:white;
+.project-card h3 {
+  margin: 0 0 10px;
+  color: #f4b400;
+  font-size: 1.05rem;
 }
-
-.delete-btn{
-    background:#da3633;
-    color:white;
+.project-card p { margin: 8px 0; color: #c9d1d9; }
+.project-card .project-status { color: #f0f6fc; font-size: .9rem; }
+.project-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
 }
-
-.new-project{
-    width:100%;
-    padding:14px;
-    margin-top:20px;
-    border:none;
-    border-radius:12px;
-    background:#f4b400;
-    color:black;
-    font-size:16px;
-    font-weight:bold;
+.project-actions button {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 8px;
+  border: 0;
+  border-radius: 10px;
+  font: inherit;
+  cursor: pointer;
 }
-
-.bottom-nav{
-    position:fixed;
-    left:0;
-    right:0;
-    bottom:0;
-    display:flex;
-    justify-content:space-around;
-    background:#161b22;
-    border-top:1px solid #30363d;
-    padding:12px;
+.open-btn { background: #238636; color: #fff; }
+.delete-btn { background: #da3633; color: #fff; }
+.empty-state {
+  padding: 14px;
+  border: 1px dashed #484f58;
+  border-radius: 12px;
+  color: #c9d1d9;
 }
-
-.bottom-nav a{
-    color:white;
-    text-decoration:none;
+.topbar-link { color: #f4b400; text-decoration: none; font-size: .9rem; }
+#projectsStatus { min-height: 1.2em; }
+#projectsStatus[data-kind="error"] { color: #ff7b72; }
+#projectsStatus[data-kind="success"] { color: #3fb950; }
+.bottom-nav { z-index: 5; }
+.bottom-nav a.active { color: #f4b400; }
+@media (min-width: 680px) {
+  .projects-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
-
-.bottom-nav a.active{
-    color:#f4b400;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; }
 }
