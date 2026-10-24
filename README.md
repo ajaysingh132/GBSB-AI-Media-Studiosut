@@ -26,7 +26,7 @@ The `feature/euron-player-integration` branch adds video playback, project manag
 
 Use the deployed HTTPS site for service-worker/PWA behavior; do not open HTML directly from device storage.
 
-## Important AI generation status
+## AI Video Engine backend\n\n- Backend MVP: `backend/app/main.py` (FastAPI) with a Hugging Face text-to-video adapter, health endpoint, and generated-video response route.\n- Generation is disabled by default and requires a backend-only `HF_TOKEN` plus deliberate configuration. Provider requests may consume credits or cost money; check current pricing before enabling.\n- Setup and safeguards: [backend/README.md](backend/README.md).\n\n## Important AI generation status
 
 **Real AI video generation is not connected yet.** The AI Video Engine frontend is a scaffold; the backend and provider adapter must be implemented and deployed before it can generate clips. See [AI Video Engine Architecture](docs/AI-VIDEO-ENGINE-ARCHITECTURE.md).
 
@@ -60,7 +60,7 @@ Automated validation checks source syntax and expected structure; it does not pr
 - `video.html`, `js/video.js`, `js/video-player.js` — playback and media preview.
 - `projects.html`, `js/projects.js`, `css/projects.css` — local project manager.
 - `storyboard.html`, `js/storyboard.js`, `css/storyboard.css` — script and shot planning.
-- `ai-video.html`, `js/ai-video.js`, `css/ai-video.css` — API-ready generation interface.
+- `ai-video.html`, `js/ai-video.js`, `css/ai-video.css` — API-ready generation interface.\n- `backend/app/main.py` — guarded FastAPI generation endpoint and Hugging Face adapter.\n- `backend/README.md` — backend setup, cost guardrails, and API contract.
 - `docs/AI-VIDEO-ENGINE-ARCHITECTURE.md` — backend contract and security plan.
 - `service-worker.js` — offline asset caching.
 - `.github/workflows/validate-video.yml` — automated validation.
