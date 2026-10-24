@@ -56,8 +56,11 @@ Mobile-first local project list; no cloud sync or file upload.
 
   function getProjects() {
     const saved = readList(PROJECTS_KEY);
-    if (!saved.length) return sampleProjects.map((project) => ({ ...project, starter: true }));
-    return saved;
+    const savedIds = new Set(saved.map((project) => String(project.id)));
+    const starters = sampleProjects
+      .filter((project) => !savedIds.has(String(project.id)))
+      .map((project) => ({ ...project, starter: true }));
+    return [...saved, ...starters];
   }
 
   function renderProjects() {
