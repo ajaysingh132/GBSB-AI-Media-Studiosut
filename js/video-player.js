@@ -138,6 +138,12 @@ const GBSBVideoPlayer = (() => {
     const v = video();
     clearSubtitle();
     if (!url || !v) return;
+    let parsedUrl;
+    try { parsedUrl = new URL(String(url).trim(), window.location.href); }
+    catch (_) { throw new Error("कैप्शन के लिए वैध WebVTT URL दें।"); }
+    if (parsedUrl.protocol !== "https:" && parsedUrl.protocol !== "http:") {
+      throw new Error("कैप्शन URL में https:// या http:// होना चाहिए।");
+    }
     const track = document.createElement("track");
     track.kind = "subtitles";
     track.label = "Subtitles";
