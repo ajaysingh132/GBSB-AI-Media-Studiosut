@@ -30,3 +30,15 @@ This is an Euron-inspired integration, not a copy of Euron's React player or AWS
 3. Return a media record and a playback URL (MP4 or HLS manifest) to the frontend.
 4. Persist projects in an authenticated database if cross-device access is needed.
 5. Add provider adapters for AI video, TTS/STT and storage separately from the player.
+
+
+## Follow-up hardening (automated changes)
+- Avoid persisting video URLs containing query parameters, fragments, or URL credentials in local project history; such URLs must be re-entered to replay.
+- Guard against stale asynchronous HLS load results when the user switches sources before the HLS library finishes loading.
+- Add a GitHub Actions workflow for JavaScript syntax checks and a structural smoke test covering required Video Studio controls and local asset references.
+
+## Validation status
+- Repository source and integration diffs have been reviewed.
+- Automated validation workflow is configured, but a successful workflow run has not yet been confirmed from the available GitHub run-status interface.
+- Browser/mobile playback, HLS CORS behaviour, fullscreen behaviour, subtitle rendering, and service-worker upgrade behaviour still require a real browser test.
+- Do not merge this pull request until the automated checks and real-device smoke test pass.
