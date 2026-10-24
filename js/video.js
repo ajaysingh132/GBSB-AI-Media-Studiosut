@@ -79,6 +79,7 @@ function readProjects() {
     const data = JSON.parse(localStorage.getItem(videoStudio.storageKey) || "[]");
     return Array.isArray(data) ? data : [];
   } catch (_) {
+    // Private browsing or storage restrictions must not prevent video preview.
     return [];
   }
 }
@@ -109,8 +110,13 @@ function saveVideoProject(project) {
   };
   const projects = readProjects();
   projects.unshift(item);
-  localStorage.setItem(videoStudio.storageKey, JSON.stringify(projects.slice(0, 30)));
-  videoStudio.currentProject = item;
+  try {
+    localStorage.setItem(videoStudio.storageKey, JSON.stringify(projects.slice(0, 30)));
+    videoStudio.currentProject = item;
+  } catch (_) {
+    // Storage quota/privacy restrictions should not break playback.
+    GBSBVideoPlayer?.status("वीडियो खुल गया, लेकिन ब्राउज़र स्टोरेज उपलब्ध नहीं है; प्रोजेक्ट सेव नहीं हुआ।", "error");
+  }
   loadVideos();
   return item;
 }
