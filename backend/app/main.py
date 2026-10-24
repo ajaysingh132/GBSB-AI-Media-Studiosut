@@ -23,6 +23,10 @@ VIDEO_ENABLED = os.getenv("VIDEO_GENERATION_ENABLED", "false").lower() == "true"
 HF_TOKEN = os.getenv("HF_TOKEN", "").strip()
 VIDEO_MODEL = os.getenv("VIDEO_MODEL", "Wan-AI/Wan2.2-TI2V-5B").strip()
 VIDEO_PROVIDER = os.getenv("VIDEO_PROVIDER", "fal-ai").strip()
+MUSIC_ENABLED = os.getenv("MUSIC_GENERATION_ENABLED", "false").lower() == "true"
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "").strip()
+MUSIC_MODEL = os.getenv("MUSIC_MODEL", "lyria-3.5").strip()
+MAX_AUDIO_BYTES = int(os.getenv("MAX_AUDIO_BYTES", "52428800"))
 
 app = FastAPI(title="GBSBFORYOU AI Video Engine", version="0.1.0")
 # Restrict this list to the deployed website origin in production.
@@ -59,6 +63,9 @@ def health() -> dict:
         "generation_enabled": VIDEO_ENABLED,
         "provider_configured": bool(HF_TOKEN and VIDEO_MODEL and VIDEO_PROVIDER),
         "provider": VIDEO_PROVIDER if HF_TOKEN else None,
+        "music_generation_enabled": MUSIC_ENABLED,
+        "music_provider_configured": bool(GEMINI_API_KEY and MUSIC_MODEL),
+        "music_model": MUSIC_MODEL if GEMINI_API_KEY else None,
     }
 
 
@@ -115,6 +122,61 @@ def generate_video(request: GenerationRequest) -> dict:
         "aspect_ratio_requested": request.aspect_ratio,
         "note": "Output duration and aspect ratio depend on the selected model/provider.",
     }
+
+
+class MusicGenerationRequest(BaseModel):
+    prompt: str = Field(min_length=8, max_length=4000)
+
+    @field_validator("prompt")
+    @classmethod
+    def clean_music_prompt(cls, value: str) -> str:
+        cleaned = value.strip()
+        if len(cleaned) < 8:
+            raise ValueError("Music prompt must contain at least 8 non-space characters.")
+        return cleaned
+
+
+@app.post("/api/music/generations")
+def generate_music(request: MusicGenerationRequest) -> dict:
+    if not MUSIC_ENABLED:
+        raise HTTPException(status_code=503, detail="Music generation is disabled. Check Google API availability and pricing before enabling it.")
+    if not GEMINI_API_KEY:
+        raise HTTPException(status_code=503, detail="Backend GEMINI_API_KEY is not configured.")
+    if MUSIC_MODEL not in {"lyria-3.5", "lyria-3-clip-preview"}:
+        raise HTTPException(status_code=503, detail="Unsupported configured Lyria model.")
+    try:
+        from app.providers.gemini_music import generate_music as call_lyria
+        audio_bytes, lyrics_text = call_lyria(request.prompt, MUSIC_MODEL, GEMINI_API_KEY)
+    except Exception as exc:
+        raise HTTPException(status_code=502, detail="Google music generation failed. Check server logs and model/API availability.") from exc
+
+    if len(audio_bytes) > MAX_AUDIO_BYTES:
+        raise HTTPException(status_code=413, detail="Generated audio exceeds the configured size limit.")
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    job_id = uuid.uuid4().hex
+    filename = f"{job_id}.mp3"
+    target = (OUTPUT_DIR / filename).resolve()
+    if target.parent != OUTPUT_DIR:
+        raise HTTPException(status_code=400, detail="Invalid generated audio path.")
+    target.write_bytes(audio_bytes)
+    return {
+        "id": job_id,
+        "status": "completed",
+        "audio_url": f"/api/music/files/{filename}",
+        "model": MUSIC_MODEL,
+        "lyrics_or_structure": lyrics_text,
+        "note": "Audio generation may consume paid API quota; check Google AI Studio limits and pricing before enabling.",
+    }
+
+
+@app.get("/api/music/files/{filename}")
+def get_generated_music(filename: str) -> FileResponse:
+    if not re.fullmatch(r"[a-f0-9]{32}\\.mp3", filename):
+        raise HTTPException(status_code=404, detail="Audio not found.")
+    target = (OUTPUT_DIR / filename).resolve()
+    if target.parent != OUTPUT_DIR or not target.is_file():
+        raise HTTPException(status_code=404, detail="Audio not found.")
+    return FileResponse(target, media_type="audio/mpeg", filename=filename)
 
 
 @app.get("/api/video/files/{filename}")
