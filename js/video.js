@@ -22,7 +22,24 @@ document.addEventListener("DOMContentLoaded", () => {
 function initializeVideoStudio() {
   bindEvents();
   loadVideos();
+  openRequestedProject();
   if (window.GBSBVideoPlayer) GBSBVideoPlayer.setWatermark(document.getElementById("watermarkText")?.value || "GBSBFORYOU");
+}
+
+
+function openRequestedProject() {
+  let projectId = "";
+  try { projectId = new URLSearchParams(window.location.search).get("project") || ""; } catch (_) {}
+  if (!projectId) return;
+  const project = readProjects().find((item) => String(item.id || "") === projectId);
+  if (!project || !project.url || !isSafeToPersistUrl(project.url)) return;
+  const urlField = document.getElementById("videoUrl");
+  const titleField = document.getElementById("projectTitle");
+  if (urlField) urlField.value = project.url;
+  if (titleField) titleField.value = project.title || "";
+  GBSBVideoPlayer.setSource(project.url, { type: project.type }).catch((error) => {
+    GBSBVideoPlayer.status(error.message || "चुना हुआ प्रोजेक्ट नहीं खुला।", "error");
+  });
 }
 
 function bindEvents() {
