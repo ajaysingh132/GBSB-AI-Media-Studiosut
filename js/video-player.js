@@ -111,7 +111,8 @@ const GBSBVideoPlayer = (() => {
       if (!isHls || v.canPlayType("application/vnd.apple.mpegurl")) status("वीडियो स्रोत लोड हो गया। Play दबाएँ।", "success");
       return { url: source, type: isHls ? "hls" : "file" };
     } catch (error) {
-      if (requestId === sourceRequestId) status(error.message || "वीडियो लोड नहीं हुआ।", "error");
+      if (requestId !== sourceRequestId) return { url: source, type: isHls ? "hls" : "file", stale: true };
+      status(error.message || "वीडियो लोड नहीं हुआ।", "error");
       throw error;
     }
   }
