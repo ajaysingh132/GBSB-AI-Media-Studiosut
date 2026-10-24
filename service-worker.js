@@ -1,9 +1,9 @@
 /* GBSB AI Media Studio Service Worker */
-const CACHE_NAME = "gbsb-ai-media-v0.2.0";
+const CACHE_NAME = "gbsb-ai-media-v0.3.0";
 const FILES_TO_CACHE = [
-  "./", "./index.html", "./video.html", "./manifest.json",
-  "./css/app.css", "./css/dashboard.css", "./css/video.css",
-  "./js/app.js", "./js/dashboard.js", "./js/video.js", "./js/video-player.js"
+  "./", "./index.html", "./video.html", "./projects.html", "./storyboard.html", "./manifest.json",
+  "./css/app.css", "./css/dashboard.css", "./css/video.css", "./css/projects.css", "./css/storyboard.css",
+  "./js/app.js", "./js/dashboard.js", "./js/projects.js", "./js/video.js", "./js/video-player.js", "./js/storyboard.js"
 ];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(FILES_TO_CACHE)));
