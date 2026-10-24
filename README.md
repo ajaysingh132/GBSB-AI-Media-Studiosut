@@ -72,3 +72,13 @@ The repository workflow uses Node.js 22. Syntax checks require no package instal
 ## License
 
 See [LICENSE](LICENSE).
+
+
+## AI Music Studio (Google Lyria)
+
+- Mobile-first page: `ai-music.html`.
+- Backend route: `POST /api/music/generations`; audio route: `GET /api/music/files/{filename}`.
+- Supported model IDs: `lyria-3.5` (full-length song) and `lyria-3-clip-preview` (30-second clip).
+- Set `GEMINI_API_KEY` only as a backend environment secret. Never put it in frontend code or commit a real key.
+- Music generation is disabled by default. Check Google AI Studio access, model availability, terms and current pricing first; enable only after explicit operator approval by setting `MUSIC_GENERATION_ENABLED=true`.
+- This integration is code-level only until the backend is deployed, the API key is configured, and a real audio-generation test succeeds. Google API availability and costs are account-dependent.
