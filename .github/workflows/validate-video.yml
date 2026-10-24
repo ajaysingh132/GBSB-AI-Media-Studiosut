@@ -8,6 +8,7 @@ on:
       - "js/video-player.js"
       - "css/video.css"
       - "service-worker.js"
+      - "scripts/**"
       - ".github/workflows/validate-video.yml"
   push:
     branches:
