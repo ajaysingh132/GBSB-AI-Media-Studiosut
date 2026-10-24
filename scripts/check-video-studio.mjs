@@ -11,7 +11,7 @@ const requiredVideoIds = [
 for (const id of requiredVideoIds) {
   if (!videoHtml.includes(`id="${id}"`)) errors.push(`Missing required video HTML element id: ${id}`);
 }
-for (const file of ["video.html", "projects.html", "storyboard.html", "ai-video.html"]) {
+for (const file of ["video.html", "projects.html", "storyboard.html", "ai-video.html", "ai-music.html"]) {
   const html = readFileSync(file, "utf8");
   for (const match of html.matchAll(/(?:src|href)="((?:js|css)\/[^"]+)"/g)) {
     if (!existsSync(match[1])) errors.push(`Referenced asset does not exist in ${file}: ${match[1]}`);
@@ -68,3 +68,15 @@ if (errors.length) {
 } else {
   console.log("Video Studio structural smoke test passed.");
 }
+
+const musicHtml = readFileSync("ai-music.html", "utf8");
+const musicController = readFileSync("js/ai-music.js", "utf8");
+for (const id of ["apiBase", "model", "prompt", "generateMusic", "musicStatus", "resultAudio", "downloadAudio"]) {
+  if (!musicHtml.includes(`id="${id}"`)) errors.push(`AI Music Studio is missing required element id: ${id}`);
+}
+for (const token of ['"/api/music/generations"', "GEMINI_API_KEY", "https://"]) {
+  if (token === "GEMINI_API_KEY") continue;
+  if (!musicController.includes(token)) errors.push(`AI Music controller is missing expected API/safety token: ${token}`);
+}
+if (musicController.includes("Authorization: Bearer")) errors.push("Google provider secrets must not be embedded in frontend requests.");
+if (!musicHtml.includes('href="ai-video.html"')) errors.push("AI Music Studio should link to AI Video Engine.");
