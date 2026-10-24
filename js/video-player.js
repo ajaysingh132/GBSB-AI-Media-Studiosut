@@ -11,6 +11,7 @@ const GBSBVideoPlayer = (() => {
   let objectUrl = null;
   let currentSource = "";
   let subtitleTrack = null;
+  let sourceRequestId = 0;
 
   const el = (id) => document.getElementById(id);
   const video = () => el("studioVideo");
@@ -54,7 +55,10 @@ const GBSBVideoPlayer = (() => {
       script.async = true;
       script.dataset.gbsbHls = "true";
       script.onload = () => window.Hls ? resolve(window.Hls) : reject(new Error("HLS library loaded without its player API."));
-      script.onerror = () => reject(new Error("HLS library could not be loaded. Check internet access and try again."));
+      script.onerror = () => {
+        script.remove();
+        reject(new Error("HLS library could not be loaded. Check internet access and try again."));
+      };
       document.head.appendChild(script);
     });
   }
@@ -68,6 +72,7 @@ const GBSBVideoPlayer = (() => {
       throw new Error("Use a complete https:// or http:// video URL.");
     }
 
+    const requestId = ++sourceRequestId;
     destroyHls();
     clearSubtitle();
     if (objectUrl && source !== objectUrl) clearOwnedObjectUrl();
@@ -83,13 +88,18 @@ const GBSBVideoPlayer = (() => {
         v.load();
       } else if (isHls) {
         const HlsClass = await loadScript("https://cdn.jsdelivr.net/npm/hls.js@1.6.16/dist/hls.min.js");
+        // A different URL may have been selected while the CDN script was loading.
+        if (requestId !== sourceRequestId) return { url: source, type: "hls", stale: true };
         if (!HlsClass.isSupported()) throw new Error("This browser does not support HLS playback. Try an MP4 file.");
-        hls = new HlsClass({ enableWorker: true, capLevelToPlayerSize: true });
-        hls.loadSource(source);
-        hls.attachMedia(v);
-        hls.on(HlsClass.Events.MANIFEST_PARSED, () => status("HLS वीडियो तैयार है। Play दबाएँ।", "success"));
-        hls.on(HlsClass.Events.ERROR, (_event, data) => {
-          if (data && data.fatal) {
+        const instance = new HlsClass({ enableWorker: true, capLevelToPlayerSize: true });
+        hls = instance;
+        instance.loadSource(source);
+        instance.attachMedia(v);
+        instance.on(HlsClass.Events.MANIFEST_PARSED, () => {
+          if (requestId === sourceRequestId && hls === instance) status("HLS वीडियो तैयार है। Play दबाएँ।", "success");
+        });
+        instance.on(HlsClass.Events.ERROR, (_event, data) => {
+          if (requestId === sourceRequestId && hls === instance && data && data.fatal) {
             status("HLS playback error. URL/CORS/access token जाँचें।", "error");
             destroyHls();
           }
@@ -101,14 +111,14 @@ const GBSBVideoPlayer = (() => {
       if (!isHls || v.canPlayType("application/vnd.apple.mpegurl")) status("वीडियो स्रोत लोड हो गया। Play दबाएँ।", "success");
       return { url: source, type: isHls ? "hls" : "file" };
     } catch (error) {
-      status(error.message || "वीडियो लोड नहीं हुआ।", "error");
+      if (requestId === sourceRequestId) status(error.message || "वीडियो लोड नहीं हुआ।", "error");
       throw error;
     }
   }
 
   function setLocalFile(file) {
     if (!file) return;
-    if (!file.type.startsWith("video/")) throw new Error("कृपया वीडियो फ़ाइल चुनें।");
+    if (file.type && !file.type.startsWith("video/")) throw new Error("कृपया वीडियो फ़ाइल चुनें।");
     destroyHls();
     clearSubtitle();
     clearOwnedObjectUrl();
@@ -165,6 +175,7 @@ const GBSBVideoPlayer = (() => {
   function getSource() { return currentSource; }
 
   function clear() {
+    sourceRequestId += 1;
     destroyHls();
     clearSubtitle();
     clearOwnedObjectUrl();
