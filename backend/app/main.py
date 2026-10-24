@@ -125,6 +125,7 @@ def generate_video(request: GenerationRequest) -> dict:
 
 
 class MusicGenerationRequest(BaseModel):
+    model: Literal["lyria-3.5", "lyria-3-clip-preview"] = "lyria-3.5"
     prompt: str = Field(min_length=8, max_length=4000)
 
     @field_validator("prompt")
@@ -142,11 +143,11 @@ def generate_music(request: MusicGenerationRequest) -> dict:
         raise HTTPException(status_code=503, detail="Music generation is disabled. Check Google API availability and pricing before enabling it.")
     if not GEMINI_API_KEY:
         raise HTTPException(status_code=503, detail="Backend GEMINI_API_KEY is not configured.")
-    if MUSIC_MODEL not in {"lyria-3.5", "lyria-3-clip-preview"}:
+    if request.model not in {"lyria-3.5", "lyria-3-clip-preview"}:
         raise HTTPException(status_code=503, detail="Unsupported configured Lyria model.")
     try:
         from app.providers.gemini_music import generate_music as call_lyria
-        audio_bytes, lyrics_text = call_lyria(request.prompt, MUSIC_MODEL, GEMINI_API_KEY)
+        audio_bytes, lyrics_text = call_lyria(request.prompt, request.model, GEMINI_API_KEY)
     except Exception as exc:
         raise HTTPException(status_code=502, detail="Google music generation failed. Check server logs and model/API availability.") from exc
 
@@ -163,7 +164,7 @@ def generate_music(request: MusicGenerationRequest) -> dict:
         "id": job_id,
         "status": "completed",
         "audio_url": f"/api/music/files/{filename}",
-        "model": MUSIC_MODEL,
+        "model": request.model,
         "lyrics_or_structure": lyrics_text,
         "note": "Audio generation may consume paid API quota; check Google AI Studio limits and pricing before enabling.",
     }
@@ -171,7 +172,7 @@ def generate_music(request: MusicGenerationRequest) -> dict:
 
 @app.get("/api/music/files/{filename}")
 def get_generated_music(filename: str) -> FileResponse:
-    if not re.fullmatch(r"[a-f0-9]{32}\\.mp3", filename):
+    if not re.fullmatch(r"[a-f0-9]{32}\.mp3", filename):
         raise HTTPException(status_code=404, detail="Audio not found.")
     target = (OUTPUT_DIR / filename).resolve()
     if target.parent != OUTPUT_DIR or not target.is_file():
