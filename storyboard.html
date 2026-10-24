@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#161b22">
+  <title>Script & Shot Planner | GBSB AI Media Studio</title>
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/storyboard.css">
+</head>
+<body>
+<header class="topbar">
+  <button type="button" onclick="history.back()" aria-label="वापस">⬅</button>
+  <h1>🎞 Script & Shots</h1>
+  <a href="projects.html" class="planner-link">📁 Projects</a>
+</header>
+<main class="storyboard-main">
+  <section class="card">
+    <h2>प्रोजेक्ट की योजना</h2>
+    <label for="storyTitle">प्रोजेक्ट / वीडियो का नाम</label>
+    <input id="storyTitle" type="text" maxlength="120" placeholder="जैसे: दिल की शरारत">
+    <label for="storyFormat">वीडियो फ़ॉर्मेट</label>
+    <select id="storyFormat">
+      <option value="9:16">9:16 — मोबाइल / Shorts / Reels</option>
+      <option value="16:9">16:9 — YouTube / Landscape</option>
+      <option value="1:1">1:1 — Square</option>
+    </select>
+    <label for="storyScript">मुख्य स्क्रिप्ट / कहानी</label>
+    <textarea id="storyScript" rows="5" maxlength="12000" placeholder="यहाँ अपनी कहानी, नैरेशन या दृश्य-क्रम लिखें…"></textarea>
+    <p class="hint">योजना अपने-आप इसी ब्राउज़र में सेव होती है। यह अभी AI वीडियो नहीं बनाती और न ही क्लाउड पर अपलोड करती है।</p>
+    <p id="storyStatus" role="status" aria-live="polite"></p>
+  </section>
+
+  <section class="card">
+    <div class="section-heading">
+      <div><h2>शॉट लिस्ट</h2><p class="hint">हर शॉट में दृश्य, अवधि और आवाज़/संगीत का नोट रखें।</p></div>
+      <span id="shotCount" class="count-badge">0 शॉट</span>
+    </div>
+    <div id="shotsList" class="shots-list"></div>
+    <button id="addShot" class="primary-button" type="button">＋ नया शॉट जोड़ें</button>
+  </section>
+
+  <section class="card">
+    <h2>निर्यात / बैकअप</h2>
+    <p class="hint">JSON में पूरी योजना या टेक्स्ट में पढ़ने योग्य शॉट लिस्ट डाउनलोड करें। फ़ाइल आपके डिवाइस में डाउनलोड होगी।</p>
+    <div class="export-actions">
+      <button id="exportJson" type="button">⬇ JSON बैकअप</button>
+      <button id="exportText" type="button">⬇ Shot List TXT</button>
+      <button id="clearPlan" class="danger-button" type="button">योजना साफ़ करें</button>
+    </div>
+  </section>
+</main>
+<nav class="bottom-nav" aria-label="मुख्य नेविगेशन">
+  <a href="index.html">🏠 Home</a>
+  <a href="projects.html">📁 Projects</a>
+  <a href="storyboard.html" class="active" aria-current="page">🎞 Shots</a>
+  <a href="video.html">🎬 Video</a>
+</nav>
+<script src="js/app.js"></script>
+<script src="js/storyboard.js"></script>
+</body>
+</html>
