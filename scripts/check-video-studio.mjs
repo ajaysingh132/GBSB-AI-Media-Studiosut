@@ -1,23 +1,22 @@
 import { readFileSync, existsSync } from "node:fs";
 
-const htmlPath = "video.html";
-const html = readFileSync(htmlPath, "utf8");
-const requiredIds = [
+const errors = [];
+const videoHtml = readFileSync("video.html", "utf8");
+const requiredVideoIds = [
   "projectTitle", "videoUrl", "loadVideoUrl", "videoFile",
   "studioVideo", "videoWatermark", "watermarkText", "applyWatermark",
   "subtitleUrl", "loadSubtitle", "videoStatus", "recentVideos",
   "playbackRate", "fullscreenVideo", "seekBack", "seekForward"
 ];
-
-const errors = [];
-for (const id of requiredIds) {
-  if (!html.includes(`id="${id}"`)) errors.push(`Missing required HTML element id: ${id}`);
+for (const id of requiredVideoIds) {
+  if (!videoHtml.includes(`id="${id}"`)) errors.push(`Missing required video HTML element id: ${id}`);
 }
-
-for (const match of html.matchAll(/(?:src|href)="(js\/[^"]+|css\/[^"]+)"/g)) {
-  if (!existsSync(match[1])) errors.push(`Referenced asset does not exist: ${match[1]}`);
+for (const file of ["video.html", "projects.html", "storyboard.html", "ai-video.html"]) {
+  const html = readFileSync(file, "utf8");
+  for (const match of html.matchAll(/(?:src|href)="((?:js|css)\/[^"]+)"/g)) {
+    if (!existsSync(match[1])) errors.push(`Referenced asset does not exist in ${file}: ${match[1]}`);
+  }
 }
-
 const projectsHtml = readFileSync("projects.html", "utf8");
 const projectsController = readFileSync("js/projects.js", "utf8");
 for (const id of ["projectSearch", "newProjectButton", "projectsStatus", "projectsList", "videoProjectsList"]) {
@@ -40,6 +39,17 @@ for (const token of ["function renderShots()", "function moveShot(index, directi
 }
 if (!storyboardHtml.includes('href="video.html"')) errors.push("Storyboard must link back to Video Studio.");
 if (!storyboardHtml.includes('href="projects.html"')) errors.push("Storyboard must link back to Projects Manager.");
+
+const aiHtml = readFileSync("ai-video.html", "utf8");
+const aiController = readFileSync("js/ai-video.js", "utf8");
+for (const id of ["provider", "apiBase", "prompt", "ratio", "duration", "generate", "engineStatus", "taskStatus", "resultVideo"]) {
+  if (!aiHtml.includes(`id="${id}"`)) errors.push(`AI Video Engine is missing required element id: ${id}`);
+}
+for (const token of ['"/api/video/generations"', "function normalizeBase(value)", 'url.protocol !== "https:"', "API_BASE_KEY", "Demo mode"]) {
+  if (!aiController.includes(token)) errors.push(`AI Video Engine is missing expected safeguard/contract token: ${token}`);
+}
+if (aiController.includes("Authorization: Bearer")) errors.push("Provider secrets must not be embedded in frontend requests.");
+if (!aiHtml.includes('href="storyboard.html"')) errors.push("AI Video Engine should link to Script & Shot Planner.");
 
 const controller = readFileSync("js/video.js", "utf8");
 const player = readFileSync("js/video-player.js", "utf8");
