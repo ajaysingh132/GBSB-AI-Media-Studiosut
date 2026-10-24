@@ -1,0 +1,32 @@
+.storyboard-main{max-width:900px;margin:0 auto;padding:16px 16px 100px}
+.storyboard-main .card{margin-bottom:16px}
+.storyboard-main h2{font-size:1.15rem;margin-bottom:12px}
+.storyboard-main label{display:block;font-weight:600;margin:12px 0 6px}
+.storyboard-main input,.storyboard-main select,.storyboard-main textarea{display:block;width:100%;box-sizing:border-box;padding:11px 12px;border:1px solid #484f58;border-radius:10px;background:#0d1117;color:#f0f6fc;font:inherit}
+.storyboard-main textarea{resize:vertical;line-height:1.5}
+.hint{color:#c9d1d9;font-size:.9rem;line-height:1.5;margin-top:8px}
+#storyStatus{min-height:1.4em;margin-top:8px;font-size:.9rem}
+#storyStatus[data-kind="error"]{color:#ff7b72}
+#storyStatus[data-kind="success"]{color:#3fb950}
+.section-heading,.shot-card-heading{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.section-heading .hint{margin:0}
+.count-badge,.duration-badge{white-space:nowrap;background:#30363d;color:#f0f6fc;border-radius:999px;padding:5px 10px;font-size:.82rem}
+.shots-list{display:grid;gap:14px;margin:14px 0}
+.shot-card{padding:14px;border:1px solid #30363d;border-radius:14px;background:#0d1117;min-width:0}
+.shot-card h3{font-size:1rem;color:#f4b400}
+.shot-field{display:block;margin-top:12px}
+.shot-field>span{display:block;font-size:.9rem;margin-bottom:5px;color:#e6edf3}
+.shot-actions,.export-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.shot-actions button,.export-actions button,.primary-button{min-height:44px;border:0;border-radius:10px;padding:10px 12px;font:inherit;font-weight:600}
+.shot-actions button{flex:1 1 28%}
+.primary-button{width:100%;background:#f4b400;color:#111}
+.secondary-button{background:#30363d;color:#f0f6fc}
+.danger-button{background:#da3633;color:#fff}
+.shot-actions button:disabled{opacity:.4;cursor:not-allowed}
+.export-actions button{flex:1 1 40%;background:#30363d;color:#f0f6fc}
+.export-actions .danger-button{background:#da3633}
+.empty-state{padding:14px;border:1px dashed #484f58;border-radius:12px;color:#c9d1d9}
+.planner-link{color:#f4b400;font-size:.9rem}
+.bottom-nav{z-index:5}
+.bottom-nav a.active{color:#f4b400}
+@media(min-width:680px){.storyboard-main{padding-top:24px}.shot-card{padding:18px}}
