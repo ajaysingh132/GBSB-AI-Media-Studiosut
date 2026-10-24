@@ -7,6 +7,9 @@ on:
       - "projects.html"
       - "storyboard.html"
       - "ai-video.html"
+      - "ai-music.html"
+      - "js/ai-music.js"
+      - "css/ai-music.css"
       - "js/storyboard.js"
       - "js/ai-video.js"
       - "css/storyboard.css"
@@ -64,11 +67,13 @@ jobs:
         run: node --check js/storyboard.js
       - name: Check AI Video Engine syntax
         run: node --check js/ai-video.js
+      - name: Check AI Music Engine syntax
+        run: node --check js/ai-music.js
       - name: Check video player syntax
         run: node --check js/video-player.js
       - name: Check service worker syntax
         run: node --check service-worker.js
       - name: Check Python backend syntax
-        run: python -m py_compile backend/app/main.py
+        run: python -m py_compile backend/app/main.py backend/app/providers/gemini_music.py
       - name: Run Video Studio structural smoke test
         run: node scripts/check-video-studio.mjs
