@@ -30,6 +30,17 @@ if (!projectsController.includes("function safeReusableUrl(value)")) errors.push
 if (!projectsController.includes("function newProject()")) errors.push("New project creation function is missing.");
 if (!projectsController.includes("window.confirm")) errors.push("Destructive project actions must require confirmation.");
 
+const storyboardHtml = readFileSync("storyboard.html", "utf8");
+const storyboardController = readFileSync("js/storyboard.js", "utf8");
+for (const id of ["storyTitle", "storyFormat", "storyScript", "storyStatus", "shotsList", "shotCount", "addShot", "exportJson", "exportText", "clearPlan"]) {
+  if (!storyboardHtml.includes(`id="${id}"`)) errors.push(`Storyboard page is missing required element id: ${id}`);
+}
+for (const token of ["function renderShots()", "function moveShot(index, direction)", "function exportJson()", "function exportText()", "localStorage.setItem(STORAGE_KEY"]) {
+  if (!storyboardController.includes(token)) errors.push(`Storyboard controller is missing expected capability: ${token}`);
+}
+if (!storyboardHtml.includes('href="video.html"')) errors.push("Storyboard must link back to Video Studio.");
+if (!storyboardHtml.includes('href="projects.html"')) errors.push("Storyboard must link back to Projects Manager.");
+
 const controller = readFileSync("js/video.js", "utf8");
 const player = readFileSync("js/video-player.js", "utf8");
 for (const token of ["setSource", "setLocalFile", "setWatermark", "setSubtitle", "setPlaybackRate", "toggleFullscreen", "seek"]) {
