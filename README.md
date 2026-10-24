@@ -15,6 +15,7 @@ The `feature/euron-player-integration` branch adds a video preview and playback 
 - Store a small list of recent project metadata in browser localStorage.
 - Avoid saving URLs with credentials, query parameters or fragments.
 - Cache the player assets through the service worker.
+- Script and shot planning with local autosave, duration/visual/audio notes, shot reordering, and JSON/TXT export.
 - Run JavaScript syntax and structural checks in GitHub Actions.
 
 ## Open Video Studio
@@ -52,6 +53,8 @@ HLS playback depends on browser compatibility, network access, CORS policy and v
 ## Repository map
 
 - `video.html` — Video Studio page.
+- `storyboard.html` — Script and shot planner with local autosave and JSON/TXT export.
+- `js/storyboard.js` / `css/storyboard.css` — storyboard behavior and mobile styles.
 - `js/video.js` — page controller and recent-project metadata.
 - `js/video-player.js` — player adapter for direct media and HLS.
 - `css/video.css` — Video Studio-specific styles.
@@ -65,6 +68,7 @@ HLS playback depends on browser compatibility, network access, CORS policy and v
 The repository's GitHub Actions workflow uses Node.js 22 to run syntax checks and the structural smoke test:
 
 ```sh
+node --check js/storyboard.js
 node --check js/video.js
 node --check js/video-player.js
 node --check service-worker.js
