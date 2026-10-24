@@ -4,6 +4,9 @@ on:
   pull_request:
     paths:
       - "video.html"
+      - "projects.html"
+      - "js/projects.js"
+      - "css/projects.css"
       - "js/video.js"
       - "js/video-player.js"
       - "css/video.css"
@@ -39,6 +42,8 @@ jobs:
           node-version: "22"
       - name: Check video controller syntax
         run: node --check js/video.js
+      - name: Check projects controller syntax
+        run: node --check js/projects.js
       - name: Check video player syntax
         run: node --check js/video-player.js
       - name: Check service worker syntax
