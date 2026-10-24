@@ -34,7 +34,8 @@ function bindEvents() {
   byId("loadVideoUrl")?.addEventListener("click", async () => {
     try {
       const url = byId("videoUrl")?.value.trim();
-      await GBSBVideoPlayer.setSource(url);
+      const loaded = await GBSBVideoPlayer.setSource(url);
+      if (loaded?.stale) return;
       saveVideoProject({ title: byId("projectTitle")?.value.trim() || "नया वीडियो", url, type: /\.m3u8(?:$|[?#])/i.test(url) ? "hls" : "file" });
       if (!isSafeToPersistUrl(url)) {
         GBSBVideoPlayer.status("वीडियो खुल गया। सुरक्षा के लिए URL/टोकन हाल के प्रोजेक्ट में सेव नहीं किया गया।", "success");
