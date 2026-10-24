@@ -40,3 +40,5 @@ jobs:
         run: node --check js/video-player.js
       - name: Check service worker syntax
         run: node --check service-worker.js
+      - name: Run Video Studio structural smoke test
+        run: node scripts/check-video-studio.mjs
