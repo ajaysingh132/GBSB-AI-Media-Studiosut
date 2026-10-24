@@ -1,78 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="hi">
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Video Studio | GBSB AI Media Studio</title>
-
-<link rel="stylesheet" href="css/app.css">
-<link rel="stylesheet" href="css/video.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#E8A000">
+  <title>Video Studio | GBSB AI Media Studio</title>
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/video.css">
 </head>
-
 <body>
+  <header class="topbar">
+    <button type="button" onclick="history.back()" aria-label="वापस">⬅</button>
+    <h1>🎬 Video Studio</h1>
+    <button type="button" onclick="location.href='settings.html'" aria-label="सेटिंग">⚙</button>
+  </header>
 
-<header class="topbar">
+  <main class="video-studio-main">
+    <section class="card">
+      <h2>वीडियो प्रोजेक्ट</h2>
+      <label for="projectTitle">प्रोजेक्ट का नाम</label>
+      <input id="projectTitle" type="text" maxlength="120" placeholder="जैसे: बंजारा इतिहास">
+      <label for="videoUrl">वीडियो URL (MP4 या HLS .m3u8)</label>
+      <input id="videoUrl" type="url" inputmode="url" placeholder="https://…/video.mp4 या playlist.m3u8" autocomplete="url">
+      <button id="loadVideoUrl" type="button" class="primary-action">URL से वीडियो चलाएँ</button>
+      <p class="help-text">URL ब्राउज़र के लिए उपलब्ध होना चाहिए। CORS और access-token नियम लागू हो सकते हैं।</p>
+      <label for="videoFile">मोबाइल से वीडियो चुनें (केवल प्रीव्यू)</label>
+      <input id="videoFile" type="file" accept="video/*">
+      <p class="help-text">स्थानीय फ़ाइल आपके मोबाइल पर प्रीव्यू होगी; अभी सर्वर पर अपलोड नहीं होती।</p>
+    </section>
 
-<button onclick="history.back()">⬅</button>
+    <section class="card">
+      <h2>वीडियो प्लेयर</h2>
+      <div id="videoPlayerFrame" class="video-player-frame">
+        <video id="studioVideo" controls playsinline preload="metadata" aria-label="GBSB वीडियो प्लेयर"></video>
+        <div id="videoWatermark" class="video-watermark" hidden>GBSBFORYOU</div>
+      </div>
+      <div class="player-actions">
+        <button id="seekBack" type="button">↶ 10 सेकंड</button>
+        <button id="seekForward" type="button">10 सेकंड ↷</button>
+        <label for="playbackRate">गति</label>
+        <select id="playbackRate">
+          <option value="0.5">0.5×</option><option value="0.75">0.75×</option>
+          <option value="1" selected>1×</option><option value="1.25">1.25×</option>
+          <option value="1.5">1.5×</option><option value="2">2×</option>
+        </select>
+        <button id="fullscreenVideo" type="button">⛶ Fullscreen</button>
+      </div>
+      <label for="watermarkText">वॉटरमार्क टेक्स्ट (केवल प्रीव्यू)</label>
+      <div class="inline-controls">
+        <input id="watermarkText" type="text" maxlength="80" value="GBSBFORYOU" placeholder="वॉटरमार्क">
+        <button id="applyWatermark" type="button">लागू करें</button>
+      </div>
+      <label for="subtitleUrl">कैप्शन / Subtitles का WebVTT (.vtt) URL</label>
+      <div class="inline-controls">
+        <input id="subtitleUrl" type="url" inputmode="url" placeholder="https://…/captions.vtt">
+        <button id="loadSubtitle" type="button">कैप्शन जोड़ें</button>
+      </div>
+      <p id="videoStatus" class="video-status" role="status" aria-live="polite">वीडियो URL डालें या स्थानीय फ़ाइल चुनें।</p>
+    </section>
 
-<h1>🎬 Video Studio</h1>
+    <section class="card">
+      <h2>हाल के प्रोजेक्ट</h2>
+      <ul id="recentVideos" class="recent-videos"></ul>
+    </section>
+  </main>
 
-<button>⚙</button>
+  <nav class="bottom-nav">
+    <a href="index.html">🏠 Home</a>
+    <a href="voices.html">🎤 Voices</a>
+    <a href="projects.html">📁 Projects</a>
+    <a href="video.html" class="active">🎬 Video</a>
+  </nav>
 
-</header>
-
-<main>
-
-<section class="card">
-
-<h2>Create AI Video</h2>
-
-<p>Create narrated videos using AI voices.</p>
-
-<button id="newVideo">
-➕ New Video
-</button>
-
-</section>
-
-<section class="card">
-
-<h2>Recent Videos</h2>
-
-<ul>
-
-<li>Constitution Documentary</li>
-
-<li>Banjara History</li>
-
-<li>No more videos</li>
-
-</ul>
-
-</section>
-
-</main>
-
-<nav class="bottom-nav">
-
-<a href="index.html">🏠 Home</a>
-
-<a href="voices.html">🎤 Voices</a>
-
-<a href="projects.html">📁 Projects</a>
-
-<a href="video.html" class="active">🎬 Video</a>
-
-</nav>
-
-<script src="js/app.js"></script>
-<script src="js/video.js"></script>
-
+  <script src="js/app.js"></script>
+  <script src="js/video-player.js"></script>
+  <script src="js/video.js"></script>
 </body>
-
 </html>
