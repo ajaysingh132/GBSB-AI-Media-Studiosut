@@ -36,6 +36,9 @@ function bindEvents() {
       const url = byId("videoUrl")?.value.trim();
       await GBSBVideoPlayer.setSource(url);
       saveVideoProject({ title: byId("projectTitle")?.value.trim() || "नया वीडियो", url, type: /\.m3u8(?:$|[?#])/i.test(url) ? "hls" : "file" });
+      if (!isSafeToPersistUrl(url)) {
+        GBSBVideoPlayer.status("वीडियो खुल गया। सुरक्षा के लिए URL/टोकन हाल के प्रोजेक्ट में सेव नहीं किया गया।", "success");
+      }
     } catch (error) {
       GBSBVideoPlayer.status(error.message || "वीडियो लोड नहीं हुआ।", "error");
     }
@@ -79,12 +82,28 @@ function readProjects() {
   }
 }
 
+function isSafeToPersistUrl(value) {
+  if (!value) return false;
+  try {
+    const parsed = new URL(value);
+    // Avoid persisting signed URLs, credentials, and other query-based tokens
+    // in browser storage. The user can re-enter such a URL when needed.
+    return (parsed.protocol === "https:" || parsed.protocol === "http:") &&
+      !parsed.username && !parsed.password && !parsed.search && !parsed.hash;
+  } catch (_) {
+    return false;
+  }
+}
+
 function saveVideoProject(project) {
+  const requestedUrl = project.url || "";
+  const persistUrl = isSafeToPersistUrl(requestedUrl);
   const item = {
     id: "vid_" + Date.now(),
     title: project.title || "नया वीडियो",
-    url: project.url || "",
+    url: persistUrl ? requestedUrl : "",
     type: project.type || "file",
+    urlNotSaved: Boolean(requestedUrl && !persistUrl),
     updatedAt: new Date().toISOString()
   };
   const projects = readProjects();
@@ -127,7 +146,9 @@ function loadVideos() {
       item.appendChild(open);
     } else {
       const note = document.createElement("small");
-      note.textContent = "स्थानीय फ़ाइल का प्रीव्यू दोबारा खोलने के लिए फ़ाइल फिर चुनें।";
+      note.textContent = project.urlNotSaved
+        ? "सुरक्षा के लिए URL सेव नहीं हुआ; वीडियो चलाने के लिए URL दोबारा डालें।"
+        : "स्थानीय फ़ाइल का प्रीव्यू दोबारा खोलने के लिए फ़ाइल फिर चुनें।";
       item.appendChild(note);
     }
     list.appendChild(item);
