@@ -5,6 +5,9 @@ on:
     paths:
       - "video.html"
       - "projects.html"
+      - "storyboard.html"
+      - "js/storyboard.js"
+      - "css/storyboard.css"
       - "js/projects.js"
       - "css/projects.css"
       - "js/video.js"
@@ -44,6 +47,8 @@ jobs:
         run: node --check js/video.js
       - name: Check projects controller syntax
         run: node --check js/projects.js
+      - name: Check storyboard controller syntax
+        run: node --check js/storyboard.js
       - name: Check video player syntax
         run: node --check js/video-player.js
       - name: Check service worker syntax
