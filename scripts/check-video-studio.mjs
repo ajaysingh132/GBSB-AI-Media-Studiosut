@@ -18,6 +18,18 @@ for (const match of html.matchAll(/(?:src|href)="(js\/[^"]+|css\/[^"]+)"/g)) {
   if (!existsSync(match[1])) errors.push(`Referenced asset does not exist: ${match[1]}`);
 }
 
+const projectsHtml = readFileSync("projects.html", "utf8");
+const projectsController = readFileSync("js/projects.js", "utf8");
+for (const id of ["projectSearch", "newProjectButton", "projectsStatus", "projectsList", "videoProjectsList"]) {
+  if (!projectsHtml.includes(`id="${id}"`)) errors.push(`Projects page is missing required element id: ${id}`);
+}
+if (!projectsHtml.includes('href="video.html"')) errors.push("Projects page must link to Video Studio.");
+if (!projectsController.includes('"gbsb_video_projects_v1"')) errors.push("Projects Manager must read the Video Studio project storage key.");
+if (!projectsController.includes("function renderVideoProjects()")) errors.push("Video project rendering function is missing.");
+if (!projectsController.includes("function safeReusableUrl(value)")) errors.push("Safe reusable video URL guard is missing.");
+if (!projectsController.includes("function newProject()")) errors.push("New project creation function is missing.");
+if (!projectsController.includes("window.confirm")) errors.push("Destructive project actions must require confirmation.");
+
 const controller = readFileSync("js/video.js", "utf8");
 const player = readFileSync("js/video-player.js", "utf8");
 for (const token of ["setSource", "setLocalFile", "setWatermark", "setSubtitle", "setPlaybackRate", "toggleFullscreen", "seek"]) {
