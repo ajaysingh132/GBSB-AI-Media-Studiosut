@@ -1,0 +1,127 @@
+"""Minimal guarded text-to-video backend for GBSBFORYOU AI Media Studio.
+
+Generation is disabled by default. Deploy only behind HTTPS and add authentication,
+persistent rate limits and durable storage before exposing this service publicly.
+"""
+from __future__ import annotations
+
+import os
+import re
+import uuid
+from pathlib import Path
+from typing import Literal
+
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from pydantic import BaseModel, Field, field_validator
+
+APP_DIR = Path(__file__).resolve().parent
+OUTPUT_DIR = Path(os.getenv("OUTPUT_DIR", str(APP_DIR.parent / "generated"))).resolve()
+MAX_VIDEO_BYTES = int(os.getenv("MAX_VIDEO_BYTES", "52428800"))
+VIDEO_ENABLED = os.getenv("VIDEO_GENERATION_ENABLED", "false").lower() == "true"
+HF_TOKEN = os.getenv("HF_TOKEN", "").strip()
+VIDEO_MODEL = os.getenv("VIDEO_MODEL", "Wan-AI/Wan2.2-TI2V-5B").strip()
+VIDEO_PROVIDER = os.getenv("VIDEO_PROVIDER", "fal-ai").strip()
+
+app = FastAPI(title="GBSBFORYOU AI Video Engine", version="0.1.0")
+# Restrict this list to the deployed website origin in production.
+allowed_origins = [x.strip() for x in os.getenv("CORS_ORIGINS", "").split(",") if x.strip()]
+if allowed_origins:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=allowed_origins,
+        allow_credentials=False,
+        allow_methods=["GET", "POST"],
+        allow_headers=["Content-Type"],
+    )
+
+
+class GenerationRequest(BaseModel):
+    provider: Literal["huggingface", "replicate", "custom"] = "huggingface"
+    prompt: str = Field(min_length=8, max_length=2000)
+    aspect_ratio: Literal["9:16", "16:9", "1:1"] = "9:16"
+    duration_seconds: int = Field(default=5, ge=1, le=10)
+
+    @field_validator("prompt")
+    @classmethod
+    def clean_prompt(cls, value: str) -> str:
+        cleaned = value.strip()
+        if len(cleaned) < 8:
+            raise ValueError("Prompt must contain at least 8 non-space characters.")
+        return cleaned
+
+
+@app.get("/health")
+def health() -> dict:
+    return {
+        "status": "ok",
+        "generation_enabled": VIDEO_ENABLED,
+        "provider_configured": bool(HF_TOKEN and VIDEO_MODEL and VIDEO_PROVIDER),
+        "provider": VIDEO_PROVIDER if HF_TOKEN else None,
+    }
+
+
+@app.post("/api/video/generations")
+def generate_video(request: GenerationRequest) -> dict:
+    if not VIDEO_ENABLED:
+        raise HTTPException(
+            status_code=503,
+            detail="Video generation is disabled. Review provider pricing and set VIDEO_GENERATION_ENABLED=true only when ready.",
+        )
+    if request.provider != "huggingface":
+        raise HTTPException(status_code=501, detail="This backend currently supports the Hugging Face adapter only.")
+    if not HF_TOKEN:
+        raise HTTPException(status_code=503, detail="Backend HF_TOKEN is not configured.")
+    if not VIDEO_MODEL or not VIDEO_PROVIDER:
+        raise HTTPException(status_code=503, detail="Video model/provider configuration is missing.")
+
+    # The provider call may use credits or be billable. The server-side feature flag
+    # prevents accidental spend until an operator explicitly enables generation.
+    try:
+        from huggingface_hub import InferenceClient
+
+        client = InferenceClient(provider=VIDEO_PROVIDER, api_key=HF_TOKEN, timeout=300)
+        # The standard text-to-video API accepts frame count but not a universal
+        # aspect-ratio argument. Include aspect ratio in the prompt and use an
+        # approximate 8 fps frame count; provider/model capabilities can vary.
+        prompt = f"{request.prompt}\nComposition: {request.aspect_ratio} aspect ratio."
+        video_bytes = client.text_to_video(
+            prompt,
+            model=VIDEO_MODEL,
+            num_frames=request.duration_seconds * 8,
+        )
+    except Exception as exc:
+        # Avoid returning provider internals or secrets to the browser.
+        raise HTTPException(status_code=502, detail="The configured video provider failed. Check backend logs and model/provider availability.") from exc
+
+    if not video_bytes:
+        raise HTTPException(status_code=502, detail="The provider returned an empty video.")
+    if len(video_bytes) > MAX_VIDEO_BYTES:
+        raise HTTPException(status_code=413, detail="Generated video exceeds the configured output size limit.")
+
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    job_id = uuid.uuid4().hex
+    filename = f"{job_id}.mp4"
+    target = (OUTPUT_DIR / filename).resolve()
+    if target.parent != OUTPUT_DIR:
+        raise HTTPException(status_code=400, detail="Invalid generated file path.")
+    target.write_bytes(video_bytes)
+    return {
+        "id": job_id,
+        "status": "completed",
+        "video_url": f"/api/video/files/{filename}",
+        "duration_seconds_requested": request.duration_seconds,
+        "aspect_ratio_requested": request.aspect_ratio,
+        "note": "Output duration and aspect ratio depend on the selected model/provider.",
+    }
+
+
+@app.get("/api/video/files/{filename}")
+def get_generated_video(filename: str) -> FileResponse:
+    if not re.fullmatch(r"[a-f0-9]{32}\.mp4", filename):
+        raise HTTPException(status_code=404, detail="Video not found.")
+    target = (OUTPUT_DIR / filename).resolve()
+    if target.parent != OUTPUT_DIR or not target.is_file():
+        raise HTTPException(status_code=404, detail="Video not found.")
+    return FileResponse(target, media_type="video/mp4", filename=filename)
