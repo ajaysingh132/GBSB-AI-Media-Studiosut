@@ -6,8 +6,11 @@ on:
       - "video.html"
       - "projects.html"
       - "storyboard.html"
+      - "ai-video.html"
       - "js/storyboard.js"
+      - "js/ai-video.js"
       - "css/storyboard.css"
+      - "css/ai-video.css"
       - "js/projects.js"
       - "css/projects.css"
       - "js/video.js"
@@ -24,8 +27,11 @@ on:
       - "video.html"
       - "projects.html"
       - "storyboard.html"
+      - "ai-video.html"
       - "js/storyboard.js"
+      - "js/ai-video.js"
       - "css/storyboard.css"
+      - "css/ai-video.css"
       - "js/projects.js"
       - "css/projects.css"
       - "js/video.js"
@@ -55,6 +61,8 @@ jobs:
         run: node --check js/projects.js
       - name: Check storyboard controller syntax
         run: node --check js/storyboard.js
+      - name: Check AI Video Engine syntax
+        run: node --check js/ai-video.js
       - name: Check video player syntax
         run: node --check js/video-player.js
       - name: Check service worker syntax
