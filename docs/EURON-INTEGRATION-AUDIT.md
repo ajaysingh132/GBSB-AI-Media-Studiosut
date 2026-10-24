@@ -39,6 +39,7 @@ This is an Euron-inspired integration, not a copy of Euron's React player or AWS
 
 ## Validation status
 - Repository source and integration diffs have been reviewed.
-- GitHub Actions run #14 passed for commit `1e966484de4bfb6d826b7663f73d768697e0c246`: JavaScript syntax checks and the structural smoke test completed successfully.
+- GitHub Actions run #15 passed for commit `a6692c2e3fcc2266d365e033fad48ef3ad030e17`: JavaScript syntax checks and the structural smoke test completed successfully.
+- Follow-up hardening is now being added for subtitle URL protocols and browser-storage failures; the new commit must receive its own CI result before it can be considered validated.
 - Browser/mobile playback, HLS CORS behaviour, fullscreen behaviour, subtitle rendering, and service-worker upgrade behaviour still require a real browser test; CI success does not verify those runtime behaviours.
 - Do not merge this pull request until the real-device smoke test passes.
