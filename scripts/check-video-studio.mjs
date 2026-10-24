@@ -74,8 +74,7 @@ const musicController = readFileSync("js/ai-music.js", "utf8");
 for (const id of ["apiBase", "model", "prompt", "generateMusic", "musicStatus", "resultAudio", "downloadAudio"]) {
   if (!musicHtml.includes(`id="${id}"`)) errors.push(`AI Music Studio is missing required element id: ${id}`);
 }
-for (const token of ['"/api/music/generations"', "GEMINI_API_KEY", "https://"]) {
-  if (token === "GEMINI_API_KEY") continue;
+for (const token of ['"/api/music/generations"', "localStorage.setItem"]) {
   if (!musicController.includes(token)) errors.push(`AI Music controller is missing expected API/safety token: ${token}`);
 }
 if (musicController.includes("Authorization: Bearer")) errors.push("Google provider secrets must not be embedded in frontend requests.");
