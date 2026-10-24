@@ -70,7 +70,7 @@ const GBSBVideoPlayer = (() => {
 
     destroyHls();
     clearSubtitle();
-    clearOwnedObjectUrl();
+    if (objectUrl && source !== objectUrl) clearOwnedObjectUrl();
     v.pause();
     v.removeAttribute("src");
     v.load();
