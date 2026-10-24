@@ -80,6 +80,7 @@ const GBSBVideoPlayer = (() => {
     try {
       if (isHls && v.canPlayType("application/vnd.apple.mpegurl")) {
         v.src = source;
+        v.load();
       } else if (isHls) {
         const HlsClass = await loadScript("https://cdn.jsdelivr.net/npm/hls.js@1.6.16/dist/hls.min.js");
         if (!HlsClass.isSupported()) throw new Error("This browser does not support HLS playback. Try an MP4 file.");
@@ -95,8 +96,8 @@ const GBSBVideoPlayer = (() => {
         });
       } else {
         v.src = source;
+        v.load();
       }
-      v.load();
       if (!isHls || v.canPlayType("application/vnd.apple.mpegurl")) status("वीडियो स्रोत लोड हो गया। Play दबाएँ।", "success");
       return { url: source, type: isHls ? "hls" : "file" };
     } catch (error) {
