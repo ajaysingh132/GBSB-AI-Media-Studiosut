@@ -18,7 +18,9 @@ on:
       - "video.html"
       - "js/video.js"
       - "js/video-player.js"
+      - "css/video.css"
       - "service-worker.js"
+      - "scripts/**"
       - ".github/workflows/validate-video.yml"
 
 permissions:
