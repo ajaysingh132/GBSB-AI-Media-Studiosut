@@ -63,16 +63,16 @@
       if (!data.id) throw new Error("Backend उत्तर में कार्य ID (id) नहीं मिली।");
       $("taskStatus").textContent = "कार्य ID: " + String(data.id) + " | स्थिति: " + String(data.status || "queued");
       if (data.status_url) $("taskStatus").textContent += " | स्थिति जाँच URL: " + String(data.status_url);
-      if (data.video_url) showVideo(data.video_url);
+      if (data.video_url) showVideo(data.video_url, base);
       status("Backend ने अनुरोध स्वीकार किया। वास्तविक स्थिति backend के उत्तर पर निर्भर है।", "success");
     } catch (error) {
       status("जनरेशन अनुरोध पूरा नहीं हुआ: " + (error && error.message ? error.message : "नेटवर्क त्रुटि"), "error");
       $("taskStatus").textContent = "Backend/API अभी उपलब्ध नहीं या उसका contract मेल नहीं खाता।";
     }
   }
-  function showVideo(value) {
+  function showVideo(value, base) {
     let url;
-    try { url = new URL(value, window.location.href); } catch (_) { return; }
+    try { url = new URL(value, base + "/"); } catch (_) { return; }
     if (!["https:", "blob:"].includes(url.protocol) || url.username || url.password) return;
     const video = $("resultVideo");
     video.src = url.href;
