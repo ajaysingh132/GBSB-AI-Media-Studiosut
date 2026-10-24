@@ -25,6 +25,8 @@ for (const token of ["setSource", "setLocalFile", "setWatermark", "setSubtitle",
 }
 if (!controller.includes("function isSafeToPersistUrl")) errors.push("URL persistence safety guard is missing.");
 if (!controller.includes("if (loaded?.stale) return;")) errors.push("Stale source result guard is missing.");
+if (!controller.includes("Storage quota/privacy restrictions should not break playback.")) errors.push("Storage failure handling is missing.");
+if (!player.includes('parsedUrl.protocol !== "https:" && parsedUrl.protocol !== "http:"')) errors.push("Subtitle URL protocol validation is missing.");
 
 if (errors.length) {
   console.error("Video Studio structural smoke test failed:");
