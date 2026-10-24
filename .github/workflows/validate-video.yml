@@ -22,6 +22,12 @@ on:
       - feature/euron-player-integration
     paths:
       - "video.html"
+      - "projects.html"
+      - "storyboard.html"
+      - "js/storyboard.js"
+      - "css/storyboard.css"
+      - "js/projects.js"
+      - "css/projects.css"
       - "js/video.js"
       - "js/video-player.js"
       - "css/video.css"
