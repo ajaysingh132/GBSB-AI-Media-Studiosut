@@ -42,13 +42,14 @@ if (!storyboardHtml.includes('href="projects.html"')) errors.push("Storyboard mu
 
 const aiHtml = readFileSync("ai-video.html", "utf8");
 const aiController = readFileSync("js/ai-video.js", "utf8");
-for (const id of ["provider", "apiBase", "prompt", "ratio", "duration", "generate", "engineStatus", "taskStatus", "resultVideo"]) {
+for (const id of ["provider", "modelId", "apiBase", "prompt", "ratio", "duration", "generate", "engineStatus", "taskStatus", "resultVideo"]) {
   if (!aiHtml.includes(`id="${id}"`)) errors.push(`AI Video Engine is missing required element id: ${id}`);
 }
-for (const token of ['"/api/video/generations"', "function normalizeBase(value)", 'url.protocol !== "https:"', "API_BASE_KEY", "Demo"]) {
+for (const token of ['"/api/video/generations"', "function normalizeBase(value)", 'url.protocol !== "https:"', "API_BASE_KEY", "MODEL_KEY"]) {
   if (!aiController.includes(token)) errors.push(`AI Video Engine is missing expected safeguard/contract token: ${token}`);
 }
 if (aiController.includes("Authorization: Bearer")) errors.push("Provider secrets must not be embedded in frontend requests.");
+if (!aiHtml.includes("Direct Model")) errors.push("AI Video Engine should expose API-free Direct Model mode.");
 if (!aiHtml.includes('href="storyboard.html"')) errors.push("AI Video Engine should link to Script & Shot Planner.");
 
 const controller = readFileSync("js/video.js", "utf8");
