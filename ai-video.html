@@ -17,15 +17,16 @@
 <main class="ai-video-main">
   <section class="card">
     <h2>वीडियो जनरेशन अनुरोध</h2>
-    <p class="hint">यह पेज हमारे अपने स्टूडियो का API-ready इंटरफ़ेस है। वास्तविक क्लिप बनाने के लिए सुरक्षित backend और वीडियो मॉडल/API जोड़ना अगला चरण है। अभी कोई वीडियो जनरेट नहीं होगा।</p>
+    <p class="hint">API प्रदाता या अपने सर्वर पर चलने वाला स्थानीय मॉडल चुनें। स्थानीय मॉडल के लिए GPU/पर्याप्त RAM और मॉडल वज़न चाहिए; पहली बार मॉडल डाउनलोड करना पड़ सकता है।</p>
     <label for="provider">मॉडल प्रदाता</label>
     <select id="provider">
-      <option value="demo">Demo / अभी कनेक्ट नहीं</option>
-      <option value="huggingface">Hugging Face Inference</option>
-      <option value="replicate">Replicate</option>
-      <option value="custom">अपना compatible backend</option>
+      <option value="local">Direct Model — अपना सर्वर (API नहीं)</option>
+      <option value="huggingface">Hugging Face Inference API</option>
     </select>
-    <label for="apiBase">Backend API का HTTPS पता</label>
+    <label for="modelId">मॉडल ID / स्थानीय मॉडल पथ (वैकल्पिक)</label>
+    <input id="modelId" type="text" maxlength="180" placeholder="उदाहरण: /models/my-video-model या समर्थित model ID">
+    <p class="hint">Direct Model मोड में मॉडल backend मशीन पर चलेगा। यह ब्राउज़र में डाउनलोड या रन नहीं होगा।</p>
+    <label for="apiBase">Backend का HTTPS पता</label>
     <input id="apiBase" type="url" inputmode="url" placeholder="https://your-backend.example">
     <p class="hint">यह पता केवल इसी ब्राउज़र में रखा जाएगा। API key यहाँ न डालें। API key backend के environment secrets में रखनी होगी।</p>
     <label for="prompt">दृश्य का विवरण (Prompt)</label>
@@ -48,6 +49,8 @@
     <ul class="safety-list">
       <li>Provider API key को HTML, JavaScript, GitHub या localStorage में नहीं रखना है।</li>
       <li>Backend को provider की key server-side environment secret से पढ़नी चाहिए।</li>
+      <li>Direct Model के लिए backend पर PyTorch, Diffusers, वीडियो encoder और पर्याप्त GPU/RAM की ज़रूरत हो सकती है।</li>
+      <li>स्थानीय मॉडल और API मोड backend पर अलग-अलग सक्षम करने होंगे।</li>
       <li>मॉडल/API की कीमत, मुफ़्त सीमा और उपयोग-अधिकार जाँचने के बाद ही असली अनुरोध चालू करें।</li>
       <li>वीडियो फाइल को GitHub repository में स्टोर न करें; media storage अलग रखें।</li>
     </ul>
