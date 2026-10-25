@@ -4,6 +4,7 @@
   const $ = (id) => document.getElementById(id);
   const API_BASE_KEY = "gbsb_ai_video_api_base_v1";
   const PROVIDER_KEY = "gbsb_ai_video_provider_v1";
+  const MODEL_KEY = "gbsb_ai_video_model_v1";
   function status(message, kind = "info") {
     const el = $("engineStatus");
     el.textContent = message;
@@ -24,6 +25,7 @@
       }
       localStorage.setItem(API_BASE_KEY, base || "");
       localStorage.setItem(PROVIDER_KEY, $("provider").value);
+      localStorage.setItem(MODEL_KEY, $("modelId").value.trim());
       status("सेटिंग इसी ब्राउज़र में सेव हुई। इसमें कोई API key सेव नहीं होती।", "success");
     } catch (_) { status("ब्राउज़र स्टोरेज उपलब्ध नहीं है; सेटिंग इस सत्र में ही रखें।", "error"); }
   }
@@ -34,12 +36,7 @@
     const base = normalizeBase($("apiBase").value.trim());
     const prompt = $("prompt").value.trim();
     if (!prompt) { status("पहले दृश्य का विवरण लिखें।", "error"); return; }
-    if ($("provider").value === "demo") {
-      status("अभी Demo मोड चुना है। वास्तविक जनरेशन के लिए compatible backend जोड़ना होगा।", "error");
-      $("taskStatus").textContent = "कोई अनुरोध नहीं भेजा गया; अभी backend कनेक्ट नहीं है।";
-      return;
-    }
-    if (!base) {
+        if (!base) {
       status("पहले अपने सुरक्षित HTTPS backend का पता दर्ज करें।", "error");
       $("taskStatus").textContent = "Backend URL अनुपलब्ध है।";
       return;
@@ -53,6 +50,7 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           provider: $("provider").value,
+          model: $("modelId").value.trim(),
           prompt,
           aspect_ratio: $("ratio").value,
           duration_seconds: Number($("duration").value)
@@ -84,11 +82,13 @@
   document.addEventListener("DOMContentLoaded", () => {
     try {
       $("apiBase").value = localStorage.getItem(API_BASE_KEY) || "";
+      $("modelId").value = localStorage.getItem(MODEL_KEY) || "";
       const provider = localStorage.getItem(PROVIDER_KEY);
       if (provider && [...$("provider").options].some((o) => o.value === provider)) $("provider").value = provider;
     } catch (_) {}
     $("apiBase").addEventListener("change", saveSettings);
     $("provider").addEventListener("change", saveSettings);
+    $("modelId").addEventListener("change", saveSettings);
     $("generate").addEventListener("click", generate);
   });
 })();
