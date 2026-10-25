@@ -1,45 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#161b22">
     <title>Projects | GBSB AI Media Studio</title>
-
     <link rel="stylesheet" href="css/app.css">
     <link rel="stylesheet" href="css/projects.css">
 </head>
-
 <body>
-
 <header class="topbar">
-    <h1>📁 Projects</h1>
+    <button type="button" onclick="history.back()" aria-label="वापस">⬅</button>
+    <h1>📁 Projects Manager</h1>
+    <a class="topbar-link" href="video.html">🎬 Video Studio</a>
 </header>
 
-<main>
+<main class="projects-main">
+    <section class="project-tools card">
+        <h2>आपके प्रोजेक्ट</h2>
+        <p>यह पेज इसी ब्राउज़र में सेव प्रोजेक्ट दिखाता है। अभी क्लाउड सिंक उपलब्ध नहीं है।</p>
+        <label for="projectSearch">प्रोजेक्ट खोजें</label>
+        <input id="projectSearch" type="search" placeholder="नाम या स्थिति लिखें…" autocomplete="off">
+        <button id="newProjectButton" class="new-project" type="button">＋ नया प्रोजेक्ट</button>
+        <p id="projectsStatus" role="status" aria-live="polite"></p>
+    </section>
 
-<div class="card">
-<h2>Recent Projects</h2>
+    <section aria-labelledby="savedProjectsHeading">
+        <h2 id="savedProjectsHeading">प्रोजेक्ट सूची</h2>
+        <div id="projectsList" class="projects-list"></div>
+    </section>
 
-<p>No projects available.</p>
-
-<button>+ New Project</button>
-
-</div>
-
+    <section aria-labelledby="videoProjectsHeading">
+        <h2 id="videoProjectsHeading">हाल के वीडियो</h2>
+        <p class="section-help">Video Studio में सेव किए गए वीडियो प्रोजेक्ट यहाँ दिखाई देंगे। स्थानीय फ़ाइल का प्रीव्यू फिर शुरू करने के लिए फ़ाइल दोबारा चुननी होगी।</p>
+        <div id="videoProjectsList" class="projects-list"></div>
+    </section>
 </main>
 
-<nav class="bottom-nav">
-
-<a href="index.html">Home</a>
-
-<a href="voices.html">Voices</a>
-
-<a href="projects.html">Projects</a>
-
+<nav class="bottom-nav" aria-label="मुख्य नेविगेशन">
+    <a href="index.html">🏠 Home</a>
+    <a href="voices.html">🎤 Voices</a>
+    <a href="projects.html" class="active" aria-current="page">📁 Projects</a>
+    <a href="storyboard.html">🎞 Shots</a>
+    <a href="video.html">🎬 Video</a>
 </nav>
-
 <script src="js/app.js"></script>
 <script src="js/projects.js"></script>
-
 </body>
 </html>

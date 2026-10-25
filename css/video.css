@@ -1,155 +1,32 @@
-/*
-=========================================================
-GBSB AI Media Studio
-Video Studio Styles v0.1
-Author : Ajay Singh Chouhan
-Organization : GBSB4U Publications
-License : MIT
-=========================================================
-*/
-
-body{
-    margin:0;
-    padding:0;
-    background:#0D1117;
-    color:#FFFFFF;
-    font-family:Arial,Helvetica,sans-serif;
-}
-
-/* ==========================
-   HEADER
-========================== */
-
-.topbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:16px;
-    background:#161B22;
-    border-bottom:1px solid #30363D;
-}
-
-.topbar h1{
-    margin:0;
-    color:#E8A000;
-    font-size:22px;
-}
-
-.topbar button{
-    width:42px;
-    height:42px;
-    border:none;
-    border-radius:50%;
-    background:#21262D;
-    color:#FFFFFF;
-    cursor:pointer;
-}
-
-/* ==========================
-   MAIN
-========================== */
-
-main{
-    padding:16px;
-}
-
-/* ==========================
-   CARD
-========================== */
-
-.card{
-    background:#161B22;
-    border:1px solid #30363D;
-    border-radius:16px;
-    padding:18px;
-    margin-bottom:18px;
-}
-
-.card h2{
-    margin-top:0;
-    color:#E8A000;
-}
-
-.card p{
-    color:#C9D1D9;
-}
-
-/* ==========================
-   BUTTON
-========================== */
-
-#newVideo{
-    width:100%;
-    padding:14px;
-    margin-top:12px;
-    border:none;
-    border-radius:12px;
-    background:#E8A000;
-    color:#000000;
-    font-size:16px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-#newVideo:hover{
-    background:#F4B400;
-}
-
-/* ==========================
-   VIDEO LIST
-========================== */
-
-.card ul{
-    list-style:none;
-    margin:0;
-    padding:0;
-}
-
-.card li{
-    background:#21262D;
-    margin-top:10px;
-    padding:12px;
-    border-radius:10px;
-}
-
-/* ==========================
-   BOTTOM NAV
-========================== */
-
-.bottom-nav{
-    position:fixed;
-    left:0;
-    right:0;
-    bottom:0;
-    display:flex;
-    justify-content:space-around;
-    padding:12px;
-    background:#161B22;
-    border-top:1px solid #30363D;
-}
-
-.bottom-nav a{
-    color:#FFFFFF;
-    text-decoration:none;
-    font-size:14px;
-}
-
-.bottom-nav a.active{
-    color:#E8A000;
-}
-
-/* ==========================
-   MOBILE
-========================== */
-
-@media(max-width:768px){
-
-.topbar h1{
-    font-size:18px;
-}
-
-.card{
-    padding:15px;
-}
-
-  }
+/* GBSB AI Media Studio — mobile-first video player and controls */
+body { margin:0; padding:0; padding-bottom:76px; background:#0D1117; color:#fff; font-family:Arial,Helvetica,sans-serif; }
+.topbar { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:14px 16px; background:#161B22; border-bottom:1px solid #30363D; }
+.topbar h1 { margin:0; color:#E8A000; font-size:20px; }
+.topbar button { min-width:42px; min-height:42px; border:0; border-radius:12px; background:#21262D; color:#fff; }
+.video-studio-main { padding:14px; max-width:900px; margin:0 auto; }
+.card { background:#161B22; border:1px solid #30363D; border-radius:16px; padding:16px; margin-bottom:16px; }
+.card h2 { margin-top:0; color:#E8A000; font-size:19px; }
+.card label { display:block; margin:14px 0 6px; color:#E6EDF3; font-size:14px; }
+.card input, .card select { box-sizing:border-box; width:100%; min-height:44px; padding:10px 12px; border:1px solid #484F58; border-radius:10px; background:#0D1117; color:#fff; font-size:16px; }
+.card button { min-height:42px; padding:9px 13px; border:1px solid #484F58; border-radius:10px; background:#21262D; color:#fff; cursor:pointer; }
+.card .primary-action { width:100%; margin-top:10px; background:#E8A000; border-color:#E8A000; color:#111; font-weight:700; }
+.help-text { color:#9DA7B3; font-size:13px; line-height:1.5; }
+.video-player-frame { position:relative; width:100%; aspect-ratio:16/9; overflow:hidden; border-radius:12px; background:#000; }
+.video-player-frame video { display:block; width:100%; height:100%; object-fit:contain; background:#000; }
+.video-watermark { position:absolute; right:12px; bottom:42px; z-index:2; max-width:75%; padding:5px 8px; border-radius:5px; background:rgba(0,0,0,.4); color:#fff; font-size:clamp(11px,2.5vw,18px); pointer-events:none; text-shadow:0 1px 3px #000; }
+.player-actions { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:10px; }
+.player-actions label { margin:0; }
+.player-actions select { width:auto; min-height:42px; }
+.inline-controls { display:flex; gap:8px; align-items:center; }
+.inline-controls input { min-width:0; flex:1; }
+.video-status { margin:12px 0 0; padding:10px; border-radius:8px; background:#21262D; color:#C9D1D9; font-size:14px; line-height:1.45; overflow-wrap:anywhere; }
+.video-status[data-kind="success"] { border-left:4px solid #2DA44E; }
+.video-status[data-kind="error"] { border-left:4px solid #F85149; }
+.recent-videos { list-style:none; padding:0; margin:0; }
+.video-project-item { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px; padding:10px 0; border-bottom:1px solid #30363D; overflow-wrap:anywhere; }
+.video-project-item:last-child { border-bottom:0; }
+.video-project-item small { display:block; color:#9DA7B3; }
+.bottom-nav { position:fixed; z-index:10; left:0; right:0; bottom:0; display:flex; justify-content:space-around; gap:6px; padding:12px 6px calc(12px + env(safe-area-inset-bottom)); background:#161B22; border-top:1px solid #30363D; }
+.bottom-nav a { color:#fff; text-decoration:none; font-size:13px; }
+.bottom-nav a.active { color:#E8A000; }
+@media (min-width:700px) { .video-studio-main { padding:22px; } .card { padding:20px; } }

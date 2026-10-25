@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#161b22">
+  <title>AI Video Engine | GBSB AI Media Studio</title>
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/ai-video.css">
+</head>
+<body>
+<header class="topbar">
+  <button type="button" onclick="history.back()" aria-label="वापस">⬅</button>
+  <h1>🎬 AI Video Engine</h1>
+  <a href="storyboard.html" class="planner-link">🎞 Shots</a>
+</header>
+<main class="ai-video-main">
+  <section class="card">
+    <h2>वीडियो जनरेशन अनुरोध</h2>
+    <p class="hint">API प्रदाता या अपने सर्वर पर चलने वाला स्थानीय मॉडल चुनें। स्थानीय मॉडल के लिए GPU/पर्याप्त RAM और मॉडल वज़न चाहिए; पहली बार मॉडल डाउनलोड करना पड़ सकता है।</p>
+    <label for="provider">मॉडल प्रदाता</label>
+    <select id="provider">
+      <option value="local">Direct Model — अपना सर्वर (API नहीं)</option>
+      <option value="huggingface">Hugging Face Inference API</option>
+    </select>
+    <label for="modelId">मॉडल ID / स्थानीय मॉडल पथ (वैकल्पिक)</label>
+    <input id="modelId" type="text" maxlength="180" placeholder="उदाहरण: /models/my-video-model या समर्थित model ID">
+    <p class="hint">Direct Model मोड में मॉडल backend मशीन पर चलेगा। यह ब्राउज़र में डाउनलोड या रन नहीं होगा।</p>
+    <label for="apiBase">Backend का HTTPS पता</label>
+    <input id="apiBase" type="url" inputmode="url" placeholder="https://your-backend.example">
+    <p class="hint">यह पता केवल इसी ब्राउज़र में रखा जाएगा। API key यहाँ न डालें। API key backend के environment secrets में रखनी होगी।</p>
+    <label for="prompt">दृश्य का विवरण (Prompt)</label>
+    <textarea id="prompt" rows="5" maxlength="2000" placeholder="उदाहरण: भोपाल की झील के किनारे सुनहरी शाम, सिनेमैटिक कैमरा मूवमेंट, रोमांटिक संगीत वीडियो का दृश्य…"></textarea>
+    <div class="field-row">
+      <div><label for="ratio">फ़ॉर्मेट</label><select id="ratio"><option value="9:16">9:16 — मोबाइल</option><option value="16:9">16:9 — YouTube</option><option value="1:1">1:1 — Square</option></select></div>
+      <div><label for="duration">अवधि</label><select id="duration"><option value="5">5 सेकंड</option><option value="8" selected>8 सेकंड</option><option value="10">10 सेकंड</option></select></div>
+    </div>
+    <button id="generate" class="primary-button" type="button">▶ जनरेशन अनुरोध भेजें</button>
+    <p id="engineStatus" role="status" aria-live="polite"></p>
+  </section>
+  <section class="card">
+    <h2>कार्य की स्थिति</h2>
+    <p id="taskStatus" class="hint">अभी कोई जनरेशन कार्य नहीं है।</p>
+    <video id="resultVideo" controls playsinline hidden></video>
+    <a id="resultLink" class="result-link" hidden rel="noopener" target="_blank">तैयार वीडियो खोलें</a>
+  </section>
+  <section class="card">
+    <h2>सुरक्षा और लागत</h2>
+    <ul class="safety-list">
+      <li>Provider API key को HTML, JavaScript, GitHub या localStorage में नहीं रखना है।</li>
+      <li>Backend को provider की key server-side environment secret से पढ़नी चाहिए।</li>
+      <li>Direct Model के लिए backend पर PyTorch, Diffusers, वीडियो encoder और पर्याप्त GPU/RAM की ज़रूरत हो सकती है।</li>
+      <li>स्थानीय मॉडल और API मोड backend पर अलग-अलग सक्षम करने होंगे।</li>
+      <li>मॉडल/API की कीमत, मुफ़्त सीमा और उपयोग-अधिकार जाँचने के बाद ही असली अनुरोध चालू करें।</li>
+      <li>वीडियो फाइल को GitHub repository में स्टोर न करें; media storage अलग रखें।</li>
+    </ul>
+  </section>
+</main>
+<nav class="bottom-nav" aria-label="मुख्य नेविगेशन">
+  <a href="index.html">🏠 Home</a><a href="projects.html">📁 Projects</a><a href="storyboard.html">🎞 Shots</a><a href="ai-video.html" class="active" aria-current="page">🎬 AI Video</a>
+</nav>
+<script src="js/app.js"></script>
+<script src="js/ai-video.js"></script>
+</body>
+</html>

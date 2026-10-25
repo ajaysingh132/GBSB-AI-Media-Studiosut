@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#161b22">
+  <title>AI Music Studio | GBSBFORYOU</title>
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/ai-music.css">
+</head>
+<body>
+<header class="topbar">
+  <button type="button" onclick="history.back()" aria-label="वापस">⬅</button>
+  <h1>🎵 AI Music Studio</h1>
+  <a href="ai-video.html" class="planner-link">🎬 Video</a>
+</header>
+<main class="music-main">
+  <section class="card">
+    <h2>भजन और पूरा गाना बनाएँ</h2>
+    <p class="hint">Google Lyria API से संगीत जनरेट करने के लिए सुरक्षित backend आवश्यक है। यह पेज API अनुरोध भेजता है; डेमो मोड में वास्तविक संगीत नहीं बनता।</p>
+    <label for="apiBase">Backend API का HTTPS पता</label>
+    <input id="apiBase" type="url" inputmode="url" placeholder="https://your-backend.example">
+    <label for="model">संगीत मॉडल</label>
+    <select id="model">
+      <option value="lyria-3.5">Lyria 3.5 — पूरा गाना (कुछ मिनट)</option>
+      <option value="lyria-3-clip-preview">Lyria 3 Clip — 30 सेकंड का नमूना</option>
+    </select>
+    <label for="prompt">भजन/गाने का विवरण</label>
+    <textarea id="prompt" rows="7" maxlength="4000" placeholder="उदाहरण: हिंदी में मौलिक भक्ति भजन, मधुर पुरुष गायन, हारमोनियम, तबला, मंजीरा, शांत मंदिर वातावरण। मुखड़ा और दो अंतरे, स्पष्ट हिंदी उच्चारण, लगभग 2 मिनट।"></textarea>
+    <button id="generateMusic" class="primary-button" type="button">▶ संगीत जनरेट करें</button>
+    <p id="musicStatus" role="status" aria-live="polite"></p>
+  </section>
+  <section class="card">
+    <h2>तैयार ऑडियो</h2>
+    <p id="musicTaskStatus" class="hint">अभी कोई ऑडियो तैयार नहीं है।</p>
+    <audio id="resultAudio" controls preload="none" hidden></audio>
+    <a id="downloadAudio" class="result-link" hidden download="gbsbforyou-music.mp3">MP3 ऑडियो डाउनलोड करें</a>
+    <details><summary>जनरेट हुए बोल/संरचना</summary><pre id="lyricsOutput"></pre></details>
+  </section>
+  <section class="card">
+    <h2>सुरक्षा और खर्च</h2>
+    <ul>
+      <li>GEMINI_API_KEY केवल backend environment secret में रखें।</li>
+      <li>Gemini ऐप की सुविधा और API की कीमत/सीमाएँ अलग हो सकती हैं।</li>
+      <li>API बिलिंग/मुफ़्त सीमा जाँचे बिना backend में MUSIC_GENERATION_ENABLED=true न करें।</li>
+      <li>सार्वजनिक उपयोग से पहले authentication, rate limits और audio storage सुरक्षा जोड़ें।</li>
+    </ul>
+  </section>
+</main>
+<nav class="bottom-nav" aria-label="मुख्य नेविगेशन">
+  <a href="index.html">🏠 Home</a><a href="projects.html">📁 Projects</a><a href="storyboard.html">🎞 Shots</a><a href="ai-music.html" class="active" aria-current="page">🎵 Music</a>
+</nav>
+<script src="js/app.js"></script>
+<script src="js/ai-music.js"></script>
+</body>
+</html>
