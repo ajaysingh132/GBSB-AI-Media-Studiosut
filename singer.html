@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0d1117">
+<title>Meri Aawaz AI Singer — GBSB AI Media Studio</title>
+<link rel="stylesheet" href="css/app.css">
+<style>
+:root{color-scheme:dark;--bg:#0d1117;--panel:#161b22;--line:#30363d;--gold:#f4b400;--muted:#9ca3af}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f8fafc;font:16px Arial,sans-serif;padding-bottom:80px}
+header{position:sticky;top:0;background:#161b22f5;border-bottom:1px solid var(--line);padding:14px;display:flex;align-items:center;gap:12px;z-index:2}
+header a{color:var(--gold);text-decoration:none;font-size:22px}header h1{font-size:19px;margin:0}
+main{max-width:760px;margin:auto;padding:16px}.hero,.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px;margin:14px 0}
+.hero{background:linear-gradient(140deg,#27200c,#161b22 65%)}.eyebrow{color:var(--gold);font-weight:bold;font-size:12px;letter-spacing:1px}
+h2{font-size:19px;margin:8px 0}p,.hint{color:#c4cbd4;line-height:1.55}.hint{font-size:13px;color:var(--muted)}
+label{display:block;font-weight:bold;margin:14px 0 7px}input,textarea,select{width:100%;background:#0d1117;color:#fff;border:1px solid #454d56;border-radius:11px;padding:13px;font:inherit}textarea{min-height:90px;resize:vertical}
+button{border:0;border-radius:12px;padding:13px 16px;font-weight:bold;font-size:15px;cursor:pointer}.primary{background:var(--gold);color:#111}.secondary{background:#30363d;color:#fff}.danger{background:#7f1d1d;color:white}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.actions button{flex:1;min-width:130px}
+#timer{font-size:30px;font-variant-numeric:tabular-nums;color:var(--gold);margin:12px 0}
+#status{padding:12px;border-radius:10px;background:#0d1117;color:#cbd5e1;margin-top:12px;min-height:45px}
+audio{width:100%;margin-top:12px}.notice{border-left:3px solid var(--gold);padding:10px 12px;background:#29230f;color:#f5e7b3;font-size:13px;line-height:1.5}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.step{background:#0d1117;border:1px solid var(--line);padding:10px;border-radius:12px;font-size:13px}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#161b22;border-top:1px solid var(--line);padding:12px;text-align:center}.bottom a{color:var(--gold);text-decoration:none}
+@media(min-width:600px){main{padding:24px}.hero,.panel{padding:22px}}
+</style>
+</head>
+<body>
+<header><a href="index.html" aria-label="Dashboard">←</a><h1>🎙️ Meri Aawaz AI Singer</h1></header>
+<main>
+<section class="hero">
+<div class="eyebrow">GBSB AI MEDIA STUDIO • MUSIC LAB</div>
+<h2>आपकी आवाज़, आपका गाना</h2>
+<p>गीत चुनें, अपनी आवाज़ का नमूना रिकॉर्ड करें और AI Singing सेवा से अपने स्वर में पूरा गीत तैयार करने की प्रक्रिया शुरू करें।</p>
+<div class="steps"><div class="step">1. गीत चुनें</div><div class="step">2. आवाज़ रिकॉर्ड करें</div><div class="step">3. AI गीत तैयार करे</div></div>
+</section>
+<section class="panel">
+<h2>1. गीत की जानकारी</h2>
+<label for="song">गाने का नाम</label><input id="song" placeholder="गीत का नाम और फिल्म/एल्बम लिखें">
+<label for="language">भाषा</label><select id="language"><option>हिंदी</option><option>बंजारा</option><option>संस्कृत</option><option>मराठी</option><option>अन्य भारतीय भाषा</option></select>
+<label for="rights">गीत/संगीत का स्रोत</label><select id="rights"><option value="licensed">मेरे पास उपयोग की अनुमति/लाइसेंस है</option><option value="original">मेरा अपना मूल गीत है</option><option value="public-domain">सार्वजनिक डोमेन सामग्री (सत्यापन आवश्यक)</option></select>
+<p class="hint">व्यावसायिक फिल्मी गीत के बोल, धुन, कराओके ट्रैक या मूल रिकॉर्डिंग के लिए आवश्यक अधिकार उपयोगकर्ता को सुनिश्चित करने होंगे।</p>
+</section>
+<section class="panel">
+<h2>2. अपनी आवाज़ रिकॉर्ड करें</h2>
+<p class="hint">शांत जगह पर फोन को लगभग 15–20 सेमी दूर रखें। स्पष्ट और सामान्य स्वर में गाएँ। बेहतर voice matching के लिए बाद में लंबा प्रशिक्षण नमूना माँगा जा सकता है।</p>
+<div id="timer">00:00</div>
+<div class="actions"><button class="primary" id="record">● रिकॉर्ड शुरू करें</button><button class="secondary" id="stop" disabled>■ रिकॉर्ड रोकें</button></div>
+<audio id="preview" controls hidden></audio>
+<div class="actions"><button class="secondary" id="download" disabled>रिकॉर्डिंग डाउनलोड करें</button><button class="secondary" id="clear" disabled>फिर से रिकॉर्ड करें</button></div>
+<div id="status" role="status" aria-live="polite">माइक्रोफोन की अनुमति मिलने पर रिकॉर्डिंग शुरू होगी।</div>
+</section>
+<section class="panel">
+<h2>3. AI से पूरा गीत तैयार करें</h2>
+<div class="notice">यह GitHub MVP में रिकॉर्डिंग और अनुरोध इंटरफेस है। वास्तविक Singing Voice Cloning / Singing Synthesis के लिए सुरक्षित backend और अधिकृत AI model/API जोड़ना बाकी है। अभी यह बटन कोई तैयार गाना उत्पन्न होने का दावा नहीं करता।</div>
+<label><input type="checkbox" id="consent" style="width:auto"> मैं पुष्टि करता/करती हूँ कि यह मेरी अपनी आवाज़ है और मुझे चुने गए गीत/संगीत के उपयोग का अधिकार है।</label>
+<button class="primary" id="generate" style="width:100%;margin-top:12px" disabled>AI गीत निर्माण के लिए अनुरोध तैयार करें</button>
+<p class="hint">आवाज़ की रिकॉर्डिंग निजी रहेगी। किसी अन्य व्यक्ति की आवाज़ की क्लोनिंग उनकी स्पष्ट अनुमति के बिना नहीं की जाएगी।</p>
+</section>
+</main>
+<div class="bottom"><a href="index.html">GBSB AI Media Studio</a> · Mobile-first prototype</div>
+<script src="js/singer-studio.js"></script>
+</body></html>
