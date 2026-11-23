@@ -15,6 +15,10 @@ const FILES_TO_CACHE = [
 
   "./index.html",
 
+  "./singer.html",
+
+  "./js/singer-studio.js",
+
   "./manifest.json",
 
   "./css/app.css",
